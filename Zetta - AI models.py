@@ -311,15 +311,31 @@ class AIModule(loader.Module):
         chat_id = str(message.chat_id)
         if self.active_chats.get(chat_id):
             # Проверка режима ответа
-            if self.response_mode.get(chat_id, "all") == "reply" and not message.is_reply:
-                return  # Игнорируем сообщение, если режим "reply" и это не ответ
-
+            if self.response_mode.get(chat_id, "all") == "reply" and \
+               not (message.is_reply and await self.is_reply_to_bot(message)):  # Проверяем, что ответ на сообщение бота
+                return  # Игнорируем сообщение, если режим "reply" и это не ответ на сообщение бота
+    
             # Проверяем, что сообщение текстовое
             if message.text:
                 question = message.text.strip()
                 user_name = await self.get_user_name(message)  # Получаем имя пользователя
+    
                 # Добавляем имя к запросу, сохраняя в историю
                 await self.respond_to_message(message, user_name, question)
+    
+    async def is_reply_to_bot(self, message):
+        """
+        Проверяет, является ли сообщение ответом на сообщение бота.
+        """
+        if message.is_reply:
+            reply_to_message = await message.get_reply_message()
+            if reply_to_message and reply_to_message.sender_id == (await self.client.get_me()).id:
+                return True
+        return False
+
+
+
+
 
     async def get_user_name(self, message):
         """
