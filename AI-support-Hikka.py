@@ -9,6 +9,7 @@ import requests  # Импортируем requests
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka
+    
     Автор: VAWEIRR
     
     >>Модуль является частью экосистемы Zetta - AI models<<
