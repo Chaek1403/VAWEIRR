@@ -13,7 +13,10 @@ APILimiter - Название модуля, то что в скобках - ко
 
 Evaluator: ( e | ebf | ec | ecpp | enode | ephp | eruby ) - исполняет код на языке программирования. Вместо print используется return.
 
- Help: ( help | helphide | support ) - 1. Список всех модулей и их команд. 2. Скрыть модули 3. Поддержка
+ Help: ( help | helphide | support ) - 
+.help - Список всех модулей и их команд. 
+.helphide - Скрыть модули 
+.support - Поддержка
 
 HikkaBackup: ( backupdb | backupmods | restoredb | restoremods | set_backup_period ) - 1. ? 2. Сделать бэкап модулей 3. Восстановить бэкап 4. Восстановить модули 5. Установить период автоматического создания бэкапов
 
