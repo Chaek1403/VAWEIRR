@@ -8,7 +8,9 @@ import requests  # Импортируем requests
 @loader.tds
 class AIsupport(loader.Module):
     """
-    AI - помощник по Hikka.
+    AI - помощник по Hikka - Zetta
+    Автор: VAWEIRR
+    <b>Модуль является частью экосистемы Zetta - AI models</b>
     """
     strings = {"name": "AI-sup Hikka"}
 
