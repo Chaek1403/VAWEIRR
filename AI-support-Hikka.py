@@ -93,9 +93,9 @@ class AIsupport(loader.Module):
                     
                     command = r
                     if command == False:
-                        formatted_answer = f"💡<b> Ответ модели {self.default_model}</b>:\n{answer}"
+                        formatted_answer = f"💡<b>Ответ AI-помощника по Hikka | Спец. По ошибкам</b>:\n{answer}"
                     else:
-                        formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ модели {self.default_model}</b>:\n{answer}"
+                        formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
     
                     await message.edit(formatted_answer)
     
