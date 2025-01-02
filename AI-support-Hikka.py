@@ -21,7 +21,7 @@ class AIsupport(loader.Module):
     @loader.unrestricted
     async def aisupcmd(self, message):
         """
-        Отправляет одиночный запрос к ИИ.
+        Спросить у AI помощника.
         Использование: `.aisup <запрос>` или ответить на сообщение с `.aisup`
         """
         reply = await message.get_reply_message()
