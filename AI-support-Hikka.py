@@ -15,8 +15,8 @@ class AIsupport(loader.Module):
     def __init__(self):
         super().__init__()
         self.default_model = "gpt-4o-mini"
-        self.instructions = self.get_instructions()
-        self.error_instructions = self.get_error_instructions()
+        self.instructions = self.get_instructions()  # Вызываем get_instructions() здесь
+        self.error_instructions = self.get_error_instructions()  # Вызываем get_error_instructions() здесь
 
     @loader.unrestricted
     async def aisupcmd(self, message):
@@ -71,11 +71,11 @@ class AIsupport(loader.Module):
                 "messages": [
                     {
                         "role": "system",
-                        "content": "."
+                        "content": instructions  # Используем self.instructions
                     },
                     {
                         "role": "user",
-                        "content": f"{instructions} Запрос пользователя: {request_text}"  # Исправлено здесь
+                        "content": request_text
                     }
                 ]
             }
@@ -92,8 +92,10 @@ class AIsupport(loader.Module):
     
                     
                     command = r
+    
+                    # Проверяем, была ли вызвана команда aierrorcmd
                     if command == False:
-                        formatted_answer = f"💡<b>Ответ AI-помощника по Hikka | Спец. По ошибкам</b>:\n{answer}"
+                        formatted_answer = f"💡<b> Ответ AI-помощника по Hikka | Спец. по ошибкам</b>:\n{answer}"
                     else:
                         formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
     
@@ -101,4 +103,4 @@ class AIsupport(loader.Module):
     
         except aiohttp.ClientError as e:
             await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
-            
+      
