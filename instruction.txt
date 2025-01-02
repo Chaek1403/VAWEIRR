@@ -184,32 +184,7 @@ KsenonGPT module for text and image generation using KsenonAPI
 ▫️ .kupdate Проверить обновления
 ▫️ .txtmodels Лист текстовых моделей
 
-Доступные модели в KsenonGPT:
-Текстовые: 
-o1-preview
-gpt-4o
-claude-3-5-sonnet
-searchgpt (GPT + Internet)
-blackboxai-pro
-claude-3-5-sonnet-20240620
-claude-3-haiku-ddg
-gemini-1.5-pro-latest
-llama-3.1-405b
-gpt-3.5-turbo-202201
-gpt-4o-mini-ddg
-gpt-4o-2024-05-13
-microsoft/Phi-3.5-mini-instruct
-Qwen/Qwen2.5-Coder-32B-Instruct
-Qwen/QwQ-32B-Preview
-У него 167 моделей
-api.theksenon.pro/v1/api/text/models
-
-Image модели в KsenonGPT:
-flux-pro-mg
-flux-dev
-sd3-ultra
-pixart-alpha
-
+Доступные модели в KsenonGPT: 167 моделей. Текстовые и изображенчиские
 LaTeX:
 Renders mathematical formulas in LaTeX pngs
 ▫️ .latex <formula> - Create LaTeX render
