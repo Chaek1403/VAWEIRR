@@ -71,11 +71,11 @@ class AIsupport(loader.Module):
                 "messages": [
                     {
                         "role": "system",
-                        "content": instructions  # Используем self.instructions
+                        "content": "."
                     },
                     {
                         "role": "user",
-                        "content": request_text
+                        "content": f"{instruction} Запрос пользователя: {request_text}"
                     }
                 ]
             }
