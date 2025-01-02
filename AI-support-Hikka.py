@@ -75,7 +75,7 @@ class AIsupport(loader.Module):
                     },
                     {
                         "role": "user",
-                        "content": f"{instruction} Запрос пользователя: {request_text}"
+                        "content": f"{instructions} Запрос пользователя: {request_text}"  # Исправлено здесь
                     }
                 ]
             }
@@ -101,4 +101,4 @@ class AIsupport(loader.Module):
     
         except aiohttp.ClientError as e:
             await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
-      
+            
