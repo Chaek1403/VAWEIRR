@@ -9,6 +9,7 @@ import requests  # Импортируем requests
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
+    ⚠️Не поможет с ошибками во время установки хикки, или с внешними модулями
     """
     strings = {"name": "AI-sup Hikka"}
 
