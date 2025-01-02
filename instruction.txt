@@ -130,7 +130,156 @@ Updater: ( restart | source | update ) - Обновляет юзербот
 ▫️ .source Показать ссылку на исходный код проекта
 ▫️ .update Скачивает обновления юзербота
 
-Внешние: Не доступно.
+Внешние: Отобраны самые популярные и известные:
+
+AutoFormatter:
+Automatically formats the text of your messages | Check The Config
+▫️ .textformat Включить/выключить модуль
+
+AnimatedProfile (v1.0.0):
+Module for your profile animation (name, bio) look in the config | Модуль для анимации вашего профиля (имя, био) смотрите конфиг
+
+▫️ .animatedbio (.abio) (abio) Включить анимацию био
+▫️ .animatedname (.aname) (aname) Включить анимацию имени
+▫️ .stopanimatedbio (.stopabio) (stopabio) Выключить анимацию био
+▫️ .stopanimatedname (.stopaname) (stopaname) Выключить анимацию имени
+
+AutoForward:
+Автоматически пересылает сообщения из каналов в один
+▫️ .autoforward - вкл/выкл модуля
+
+Check module (v3.3.0):
+Module for check modules. Проверяет модули на безопасность.
+▫️ .checkmod <module_link> or "reply file" or "send file" - perform module check
+
+EmailGenerator:
+Email Generator by @blazeftg
+
+▫️ .fakemail .fakemail <опционально, имя почтового ящика>
+Генерирует почтовый ящик с твоим именем, если оно указано
+
+FHeta (v8.9.8):
+Module for searching modules! Пользуется популярностью. И даже заменяет @hikariatama многим.
+
+▫️ .fheta (запрос) - искать модули.
+▫️ .fupdate - проверить наличие обновления.
+
+GlobalAutoReplyGPT:
+AI автоответчик с памятью для каждого чата и готовыми конфигами
+
+В коде можно установить 2 конфига с загатовленными инструкциями
+
+▫️ .lsbot Включает автоответчик для всех личных чатов с использованием конфигов или одноразовых инструкций.
+▫️ .offmonitoring Выключает автоответчик для всех личных чатов
+
+Info:
+Retrieve information about bot/user/chat
+▫️ .userinfo Get object infomation
+
+KsenonGPT (v1.5.0):
+KsenonGPT module for text and image generation using KsenonAPI
+▫️ .genimg Генерировать изображение - .genimg <prompt> <model>
+▫️ .gentext Генерировать текст - .gentext <prompt> <model>
+▫️ .imgmodels Лист моделей для изображений
+▫️ .kupdate Проверить обновления
+▫️ .txtmodels Лист текстовых моделей
+
+Доступные модели в KsenonGPT:
+Текстовые: 
+o1-preview
+gpt-4o
+claude-3-5-sonnet
+searchgpt (GPT + Internet)
+blackboxai-pro
+claude-3-5-sonnet-20240620
+claude-3-haiku-ddg
+gemini-1.5-pro-latest
+llama-3.1-405b
+gpt-3.5-turbo-202201
+gpt-4o-mini-ddg
+gpt-4o-2024-05-13
+microsoft/Phi-3.5-mini-instruct
+Qwen/Qwen2.5-Coder-32B-Instruct
+Qwen/QwQ-32B-Preview
+У него 167 моделей
+api.theksenon.pro/v1/api/text/models
+
+Image модели в KsenonGPT:
+flux-pro-mg
+flux-dev
+sd3-ultra
+pixart-alpha
+
+LaTeX:
+Renders mathematical formulas in LaTeX pngs
+▫️ .latex <formula> - Create LaTeX render
+
+LyaMusic:
+Модуль для поиска музыки, основанный на боте @LyaDownbot
+▫️ .searchm {Название трека} - Поиск трека.
+
+NekoSpy (v2.12.3):
+Sends you deleted and / or edited messages from selected users
+
+▫️ .nssave Save replied message to the channel
+▫️ .purgecache Empty cache storage from messages
+▫️ .rest [time] [-current] - Restore all deleted and edited messages from [time]
+▫️ .spybl Add / remove chat from blacklist
+▫️ .spyblclear Clear blacklist
+▫️ .spyinfo Show current spy mode configuration
+▫️ .spymode Toggle spymode
+▫️ .spywl Add / remove chat from whitelist
+▫️ .spywlclear Clear whitelist
+▫️ .stat Show stats for cached media and messages
+
+NewsLetter:
+newsletter for chats
+
+▫️ .newsdelay Delayed mailing and photos
+▫️ .sendnews <message> or reply
+
+RewriteModule:
+Модуль для переписывания текста с помощью GPT по пользовательской инструкции
+▫️ .rewrite Переписывает текст по инструкции. Использование: .rewrite <инструкция>
+
+Text to speech:
+▫️ .tts Convert text to speech with Google APIs
+
+VoiceToText:
+▫️ .vtt Распознает текст из голосового или видеосообщения.
+
+Zetta - AI models:
+Модуль для общения с ИИ. 
+>>модуль является частью экосистемы Zetta - AI models<<
+Patch: 1.2 Fixed
+
+Режимы работы:
+ - **Одиночный запрос:** `.ai <запрос>` - быстрый ответ на вопрос без сохранения истории.
+ - **Чат:** `.chat` - диалог с ИИ, запоминающим контекст беседы.
+
+▫️ .ai Отправляет одиночный запрос к ИИ.
+Использование: `.ai <запрос>` или ответить на сообщение с `.ai`
+▫️ .chat Включает/выключает режим чата.
+Использование: `.chat`
+▫️ .clear Сбрасывает историю диалога.
+Использование: `.clear`
+▫️ .createpersona Создает новую личность.
+Использование: `.createpersona <имя> <роль>`
+▫️ .deletepersona Удаляет личность.
+Использование: `.deletepersona <имя>`
+▫️ .mode Устанавливает режим ответа ИИ.
+Использование: `.mode <reply/all>`
+▫️ .model Устанавливает модель по умолчанию.
+Использование: `.model <номер>` или `.model list` для списка.
+▫️ .moduleinfo Дополнительная информация о модуле и других проектах.
+▫️ .personas Показывает список личностей.
+Использование: `.personas`
+▫️ .role Устанавливает роль для ИИ в режиме чата.
+Использование: `.role <роль>`
+▫️ .switchpersona Переключается на указанную личность.
+Использование: `.switchpersona <имя>`
+
+
 
 Все модули можно официально скачать в @hikariatama. Так же, там они проверены. Или в телеграм каналах.
 
@@ -210,4 +359,65 @@ Then, .restart -f
 
  Где получить API_ID и API_HASH?: Видео(ссылка: https://youtu.be/DcqDA249Lhg?t=24)
 
+
+Подробнее про команду .config:
+
+Конфиг делится на две категории: Встроенные и внешние.
+
+Настройка каждого модуля может быть разной.
+
+Пример: Модуль: AnimatedProfile: animated_name_frames: [
+]
+▫️ name_delay: 1.0
+▫️ animated_bio_frames: []
+▫️ bio_delay: 2.0
+
+Еще пример: Модуль: NekoSpy:
+▫️ enable_pm: True
+▫️ enable_groups: False
+▫️ whitelist: **
+▫️ blacklist: **
+▫️ always_track: **
+▫️ log_edits: True
+▫️ ignore_inline: True
+▫️ fw_protect: 3.0
+▫️ save_sd: True
+▫️ max_cache_size: 1073741824
+▫️ max_cache_age: 604800
+▫️ recent_maximum: 3600
+▫️ nocache_big_chats: True
+▫️ nocache_chats: **
+▫️ ecospace_mode: False
+▫️ very_important: **
+
+С помощью бота @hikka_7cqovy_bot можно ввести или изменить значение в конфиге.
+
+Для этого нужно зайти в конфиг. Выбрать модуль. И выбрать параметр который хотите изменить. 
+
+Затем, ввести значение. " @hikka_7cqovy_bot <значение> ". И нажать на подсказку над полем ввода что бы применить и сохранить значение. 
+
+Текст подсказки: " Введите новое значение для этого параметра ", и под этим текстом есть еще один мелкий: " Не удаляйте ID! ".
+
+Может быть и такое: " @hikka_7cqovy_bot uxeanww3s5 <значение> ". Где uxeanww3s5 это ID определенного модуля и его параметра. Его удалять нельзя.
+
+В команде .info такая информация:
+" Hikka
+
+Владелец: ...
+
+Версия: ... #<Идентификатор версии>
+Ветка: master в большинстве случаев.
+Актуальная версия - если версия актуальная.
+
+Префикс: «.» - Точка всегда по умолчанию является префиксом для команд.
+Аптайм: ... Время работы юзер бота.
+
+Использование CPU: ...
+Использование RAM: ...
+<Вид хоста на котором запущена хикка> "
+
+
+
+
 отвечай, кратко. четко. и по делу. Давая точный ответ, который максимально поможет пользователю. И советуй команды по назначению. Если команд для решения " какой то " задачи нет. Говори что такого нет. не используй моно шрифты и курсивы. команды давай цельные, не разделяй их.
+
