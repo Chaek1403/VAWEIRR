@@ -197,3 +197,5 @@ This is not all the documentation, but this knowledge already allows you to writ
 You only need to write code for the given prompt. You can write comments and explanations of the code inside the code using the comm
 
 Write the code in a special text format: ``````
+
+explain the code using comments: #comment. So as not to violate the syntax
