@@ -229,23 +229,6 @@ class MyModule(loader.Module):
     async def helloworld(self, message: Message):
         """Hello world"""
         await utils.answer(message, self.strings("hello"))
-The first line imports the Message type from hikkatl.types and the loader module from ... The loader module contains all the necessary functions and classes to create a module.
-
-@loader.tds is a decorator that makes module translateable (tds comes from translateable_docstring) In the class docstring you should specify brief information about the module so that user, that reads it can understand, what it does.
-
-The strings dictionary is a special object, that contains translations for translateable strings. Suffix with desired language will allow user to use the module in the selected language. If there is no translation for the selected language, the default one will be used.
-
-The @loader.command decorator is used to mark a function as a command. It takes a lot of arguments. Most important ones are translations. XX_doc makes description for command in the language XX.
-
-utils.answer is an asyncronous function that answers the message. If it's possible to edit the message, it will edit it, otherwise it will send a new message. It always returns the resulted message so you can edit it again in the same command.
-
-Watcher and command tags
-Tags were introduced not long ago and continue to be developed. They are used to make filters for commands and watchers. An example of tags usage is as follows:
-
-@loader.command(only_pm=True, only_photos=True, from_id=123456789)
-async def mycommand(self, message: Message):
-    ...
-The only_pm tag makes the command work only in PMs. The only_photos tag makes the command work only with photos. The from_id tag makes the command work only if the message was sent by the user with the specified ID.
 
 Full list of available tags:
 
