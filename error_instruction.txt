@@ -294,50 +294,6 @@ aliases - Set multiple aliases for a command
 Config validators
 Validators are used to sanitize input config data. See the following example for usage:
 
-@loader.tds
-class MyModule(loader.Module):
-    ...
-
-    def __init__(self):
-        self.config = loader.ModuleConfig(
-            loader.ConfigValue(
-                "task_delay",
-                60,
-                "Delay between tasks in seconds",
-                validator=loader.validators.Integer(minimum=0),
-            ),
-            loader.ConfigValue(
-                "sleep_between_tasks",
-                False,
-                "Sleep between tasks instead of waiting for them to finish",
-                validator=loader.validators.Boolean(),
-            ),
-            loader.ConfigValue(
-                "tasks_to_run",
-                [],
-                "Tasks to run",
-                validator=loader.validators.MultiChoice(["task1", "task2", "task3"]),
-            ),
-        )
-Full list of available validators:
-
-Boolean - True or False
-Integer - Integer number
-Choice - One of the given options
-MultiChoice - One or more of the given options
-Series - One or more options (not from the given list)
-Link - Valid URL
-String - Any string
-RegExp - String that matches the given regular expression
-Float - Float number
-TelegramID - Telegram ID
-Union - Used to combine multiple validators (Integer or Float etc.)
-NoneType - None
-Hidden - Good for tokens and over sensitive data
-Emoji - Valid emoji(-s)
-EntityLike - Valid entity (user, chat, channel etc.) - link, id or url
-You can create your own validators. For this purpose use the base class Validator (hikka.loader.validators.Validator):
-
 Советы по устранению ошибок: 
 
 
