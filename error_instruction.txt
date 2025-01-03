@@ -204,6 +204,140 @@ FileNotFoundError: [Errno 2] No such file or directory: 'voice_2024-12-30_02-09-
 Заметка: Посмотреть логи можно в группе " hikka - logs ".
 Заметка: Где получить API_ID и API_HASH?: ссылка на туториал: https://youtu.be/DcqDA249Lhg?t=24
 
+Как устроены модули:
+Documentation:
+
+from hikkatl.types import Message
+from .. import loader, utils
+
+
+
+@loader.tds
+class MyModule(loader.Module):
+    """My module"""
+    strings = {"name": "MyModule", "hello": "Hello world!"}
+    strings_ru = {"hello": "Привет мир!"}
+    strings_es = {"hello": "¡Hola mundo!"}
+    strings_de = {"hello": "Hallo Welt!"}
+
+    @loader.command(
+        ru_doc="Привет мир!",
+        es_doc="¡Hola mundo!",
+        de_doc="Hallo Welt!",
+        # ...
+    )
+    async def helloworld(self, message: Message):
+        """Hello world"""
+        await utils.answer(message, self.strings("hello"))
+The first line imports the Message type from hikkatl.types and the loader module from ... The loader module contains all the necessary functions and classes to create a module.
+
+@loader.tds is a decorator that makes module translateable (tds comes from translateable_docstring) In the class docstring you should specify brief information about the module so that user, that reads it can understand, what it does.
+
+The strings dictionary is a special object, that contains translations for translateable strings. Suffix with desired language will allow user to use the module in the selected language. If there is no translation for the selected language, the default one will be used.
+
+The @loader.command decorator is used to mark a function as a command. It takes a lot of arguments. Most important ones are translations. XX_doc makes description for command in the language XX.
+
+utils.answer is an asyncronous function that answers the message. If it's possible to edit the message, it will edit it, otherwise it will send a new message. It always returns the resulted message so you can edit it again in the same command.
+
+Watcher and command tags
+Tags were introduced not long ago and continue to be developed. They are used to make filters for commands and watchers. An example of tags usage is as follows:
+
+@loader.command(only_pm=True, only_photos=True, from_id=123456789)
+async def mycommand(self, message: Message):
+    ...
+The only_pm tag makes the command work only in PMs. The only_photos tag makes the command work only with photos. The from_id tag makes the command work only if the message was sent by the user with the specified ID.
+
+Full list of available tags:
+
+no_commands - Ignore all userbot commands in watcher
+only_commands - Capture only userbot commands in watcher
+out - Capture only outgoing events
+in - Capture only incoming events
+only_messages - Capture only messages (not join events)
+editable - Capture only messages, which can be edited (no forwards etc.)
+no_media - Capture only messages without media and files
+only_media - Capture only messages with media and files
+only_photos - Capture only messages with photos
+only_videos - Capture only messages with videos
+only_audios - Capture only messages with audios
+only_docs - Capture only messages with documents
+only_stickers - Capture only messages with stickers
+only_inline - Capture only messages with inline queries
+only_channels - Capture only messages with channels
+only_groups - Capture only messages with groups
+only_pm - Capture only messages with private chats
+no_pm - Exclude messages with private chats
+no_channels - Exclude messages with channels
+no_groups - Exclude messages with groups
+no_inline - Exclude messages with inline queries
+no_stickers - Exclude messages with stickers
+no_docs - Exclude messages with documents
+no_audios - Exclude messages with audios
+no_videos - Exclude messages with videos
+no_photos - Exclude messages with photos
+no_forwards - Exclude forwarded messages
+no_reply - Exclude messages with replies
+no_mention - Exclude messages with mentions
+mention - Capture only messages with mentions
+only_reply - Capture only messages with replies
+only_forwards - Capture only forwarded messages
+startswith - Capture only messages that start with given text
+endswith - Capture only messages that end with given text
+contains - Capture only messages that contain given text
+regex - Capture only messages that match given regex
+filter - Capture only messages that pass given function
+from_id - Capture only messages from given user
+chat_id - Capture only messages from given chat
+thumb_url - Works for inline command handlers. Will be shown in help
+alias - Set single alias for a command
+aliases - Set multiple aliases for a command
+Config validators
+Validators are used to sanitize input config data. See the following example for usage:
+
+@loader.tds
+class MyModule(loader.Module):
+    ...
+
+    def __init__(self):
+        self.config = loader.ModuleConfig(
+            loader.ConfigValue(
+                "task_delay",
+                60,
+                "Delay between tasks in seconds",
+                validator=loader.validators.Integer(minimum=0),
+            ),
+            loader.ConfigValue(
+                "sleep_between_tasks",
+                False,
+                "Sleep between tasks instead of waiting for them to finish",
+                validator=loader.validators.Boolean(),
+            ),
+            loader.ConfigValue(
+                "tasks_to_run",
+                [],
+                "Tasks to run",
+                validator=loader.validators.MultiChoice(["task1", "task2", "task3"]),
+            ),
+        )
+Full list of available validators:
+
+Boolean - True or False
+Integer - Integer number
+Choice - One of the given options
+MultiChoice - One or more of the given options
+Series - One or more options (not from the given list)
+Link - Valid URL
+String - Any string
+RegExp - String that matches the given regular expression
+Float - Float number
+TelegramID - Telegram ID
+Union - Used to combine multiple validators (Integer or Float etc.)
+NoneType - None
+Hidden - Good for tokens and over sensitive data
+Emoji - Valid emoji(-s)
+EntityLike - Valid entity (user, chat, channel etc.) - link, id or url
+You can create your own validators. For this purpose use the base class Validator (hikka.loader.validators.Validator):
+
 Советы по устранению ошибок: 
 
 
