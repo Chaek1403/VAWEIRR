@@ -198,4 +198,6 @@ You only need to write code for the given prompt. You can write comments and exp
 
 Write the code in a special text format: ``````
 
+Note: module 'hikkatl.utils' has no attribute 'answer'
+
 explain the code using comments: #comment. So as not to violate the syntax
