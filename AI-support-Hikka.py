@@ -66,7 +66,6 @@ class AIsupport(loader.Module):
     async def save_and_send_code(self, answer, message):
         """Сохраняет код в файл, отправляет его и удаляет."""
         try:
-            # Создаем файл AI-module.py и записываем в него код
             code_start = answer.find("`python") + len("`python")
             code_end = answer.find("```", code_start)
             code = answer[code_start:code_end].strip()
@@ -74,19 +73,17 @@ class AIsupport(loader.Module):
             with open("AI-module.py", "w") as f:
                 f.write(code)
     
-            # Отправляем файл в чат
             await message.client.send_file(
                 message.chat_id,
                 "AI-module.py",
                 caption="<b>💫Ваш готовый модуль</b>",
             )
     
-            # Удаляем файл
             os.remove("AI-module.py")
     
-        except (TypeError, IndexError) as e:  # Обработка конкретных исключений
+        except (TypeError, IndexError) as e:
             await message.reply(f"Ошибка при извлечении кода: {e}")
-        except Exception as e:  # Обработка любых других исключений
+        except Exception as e:  
             await message.reply(f"Ошибка при обработке кода: {e}")
 
 
@@ -138,7 +135,6 @@ class AIsupport(loader.Module):
                     elif command == "create":
                         await message.delete()
                         await message.respond(f"<b>Ответ AI-помощника по Hikka | Креатор модулей</b>:\n{answer}")
-                        # Вызываем функцию для сохранения и отправки кода
                         await self.save_and_send_code(answer, message)
                     else:
                         formatted_answer = answer
