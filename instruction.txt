@@ -4,12 +4,16 @@ Hikka - Это мультимодульный юзербот для телегр
 
 Команды Hikka:
 
-Встроенные: APILimiter: ( api_fw_protection | debugger | suspend_api_protect )
+Встроенные: 
+APILimiter: ( api_fw_protection | debugger | suspend_api_protect )
+▫️ .api_fw_protection Включить/выключить защиту API
+▫️ .debugger Показать PIN Werkzeug
+▫️ .suspend_api_protect <время в секундах> - Заморозить защиту API на N секунд
 
 APILimiter - Название модуля, то что в скобках - команды.
 
 
-⬜️ Использование модулей, которые делают много запросов к API. Пример: spam, autoreact, autoprofile, ghoul, lovemagic, magictext, trashguy и другие. Решение: .api_fw_protection - включить лимитер запросов. Могут быть ложные срабатывания.
+⬜️ Использование модулей, которые делают много запросов к API может привести к бану аккаунта. Пример: spam, autoreact, autoprofile, ghoul, lovemagic, magictext, trashguy и другие. Решение: .api_fw_protection - включить лимитер запросов. Могут быть ложные срабатывания.
 
 Evaluator: ( e | ebf | ec | ecpp | enode | ephp | eruby )
 ▫️ .e (.eval) Выполняет Python код
