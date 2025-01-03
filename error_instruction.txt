@@ -230,20 +230,6 @@ class MyModule(loader.Module):
         """Hello world"""
         await utils.answer(message, self.strings("hello"))
 
-Full list of available tags:
-
-no_commands - Ignore all userbot commands in watcher
-only_commands - Capture only userbot commands in watcher
-regex - Capture only messages that match given regex
-filter - Capture only messages that pass given function
-from_id - Capture only messages from given user
-chat_id - Capture only messages from given chat
-thumb_url - Works for inline command handlers. Will be shown in help
-alias - Set single alias for a command
-aliases - Set multiple aliases for a command
-Config validators
-Validators are used to sanitize input config data. See the following example for usage:
-
 Советы по устранению ошибок: 
 
 
