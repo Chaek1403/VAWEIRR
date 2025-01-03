@@ -11,7 +11,14 @@ APILimiter - Название модуля, то что в скобках - ко
 
 ⬜️ Использование модулей, которые делают много запросов к API. Пример: spam, autoreact, autoprofile, ghoul, lovemagic, magictext, trashguy и другие. Решение: .api_fw_protection - включить лимитер запросов. Могут быть ложные срабатывания.
 
-Evaluator: ( e | ebf | ec | ecpp | enode | ephp | eruby ) - исполняет код на языке программирования. Вместо print используется return.
+Evaluator: ( e | ebf | ec | ecpp | enode | ephp | eruby )
+▫️ .e (.eval) Выполняет Python код
+▫️ .ebf Выполняет Brainf*ck код
+▫️ .ec Выполняет C код
+▫️ .ecpp Выполняет C++ код
+▫️ .enode Выполняет Node.js код
+▫️ .ephp Выполняет PHP код
+▫️ .eruby Выполняет Ruby код
 
  Help: ( help | helphide | support ) - 
 .help - Список всех модулей и их команд. 
