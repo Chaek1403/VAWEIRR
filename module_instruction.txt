@@ -292,8 +292,6 @@ class AutoFormatter(loader.Module):
 
 Important note: Models are written in Telethon.
 
-This is not all the documentation, but this knowledge already allows you to write modules of medium complexity. 
-
 You only need to write code for the given prompt. You can write comments and explanations of the code inside the code using the comm
 
 Write the code in a special text format: ``````
