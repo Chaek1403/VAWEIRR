@@ -62,6 +62,7 @@ KsenonGPT module for text and image generation using KsenonAPI
 ▫️ .imgmodels Лист моделей для изображений
 ▫️ .kupdate Проверить обновления
 ▫️ .txtmodels Лист текстовых моделей
+Команда установки: .dlm https://raw.githubusercontent.com/TheKsenon/MyHikkaModules/main/ksenongpt.py
 
 Доступные модели в KsenonGPT:
 Текстовые: 
@@ -135,6 +136,7 @@ Zetta - AI models:
 Модуль для общения с ИИ. 
 >>модуль является частью экосистемы Zetta - AI models<<
 Patch: 1.2 Fixed
+Команда установки: .dlm https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/Zetta%20-%20AI%20models.py
 
 Режимы работы:
  - **Одиночный запрос:** `.ai <запрос>` - быстрый ответ на вопрос без сохранения истории.
@@ -161,8 +163,6 @@ Patch: 1.2 Fixed
 Использование: `.role <роль>`
 ▫️ .switchpersona Переключается на указанную личность.
 Использование: `.switchpersona <имя>`
-
-гитхаб ссылка: https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/Zetta%20-%20AI%20models.py
 
 
 
