@@ -117,7 +117,7 @@ class AIsupport(loader.Module):
         chat_id = str(message.chat_id)
 
         payload = {
-            "model": "claude-3.5-sonnet",
+            "model": "gpt-4o-mini",
             "request": {
                 "messages": [
                     {
