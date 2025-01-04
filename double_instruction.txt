@@ -89,6 +89,8 @@ flux-dev
 sd3-ultra
 pixart-alpha
 
+Автор: ksenon. Использует свой API.
+
 LaTeX:
 Renders mathematical formulas in LaTeX pngs
 ▫️ .latex <formula> - Create LaTeX render
@@ -96,6 +98,8 @@ Renders mathematical formulas in LaTeX pngs
 LyaMusic:
 Модуль для поиска музыки, основанный на боте @LyaDownbot
 ▫️ .searchm {Название трека} - Поиск трека.
+
+Автор: thisLyomi - Автор и модуля и бота.
 
 NekoSpy (v2.12.3):
 Sends you deleted and / or edited messages from selected users
