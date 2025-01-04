@@ -1,4 +1,4 @@
-# meta developer: VAWEIRR
+# meta developer: @procot1
 import json
 import os  # Импортируем os
 
