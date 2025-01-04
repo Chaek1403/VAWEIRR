@@ -11,7 +11,7 @@ import re
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
-    🌘Version: 2.1 Models of thinking
+    🌘Version: 2.0 Models of thinking
     ⚡Разработчик: @procot1
     """
     strings = {"name": "AI-sup Hikka"}
@@ -76,7 +76,6 @@ class AIsupport(loader.Module):
         await message.edit('''<b>🧬Обновление 2.0:
 Изменено:
 - Добавлена система 'Размышлений'.
-- пофикшен баг с отправкой готового модуля
 
 Как это: 
 - Модель с дата-сетом(1) дает ответ на запрос.
@@ -130,7 +129,7 @@ class AIsupport(loader.Module):
         r = "create"
         await self.process_request(message, self.module_instructions, r)
 
-    async def save_and_send_code(self, answer, message, request_text):
+    async def save_and_send_code(self, answer, message):
         """Сохраняет код в файл, отправляет его и удаляет."""
         try:
             code_start = answer.find("`python") + len("`python")
