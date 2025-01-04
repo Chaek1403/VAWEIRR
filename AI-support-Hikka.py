@@ -1,3 +1,4 @@
+# meta developer: VAWEIRR
 import json
 import os  # Импортируем os
 
