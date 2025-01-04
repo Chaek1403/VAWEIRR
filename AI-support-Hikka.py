@@ -11,7 +11,7 @@ import re
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
-    🌘Version: 1.3 Creator
+    🌘Version: 2.0 Models of thinking
     ⚡Разработчик: @procot1
     """
     strings = {"name": "AI-sup Hikka"}
@@ -22,6 +22,7 @@ class AIsupport(loader.Module):
         self.instructions = self.get_instructions()
         self.error_instructions = self.get_error_instructions()
         self.module_instructions = self.get_module_instruction()
+        self.double_instructions = self.get_double_instruction()
 
     @loader.unrestricted
     async def aisupcmd(self, message):
@@ -62,6 +63,60 @@ class AIsupport(loader.Module):
         response = requests.get(url)
         return response.text
 
+    def get_double_instruction(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/double_instruction.txt'
+        response = requests.get(url)
+        return response.text
+
+    @loader.unrestricted
+    async def aiinfocmd(self, message):
+        """
+        - Информация об обновлении✅
+        """
+        await message.edit('''<b>🧬Обновление 2.0:
+Изменено:
+- Добавлена система 'Размышлений'.
+
+Как это: 
+- Модель с дата-сетом(1) дает ответ на запрос.
+- затем модель с дата сетом(2) проверяет этот ответ и сверяет его со своими данными.
+- после она дает финальный ответ, который будет более точен и верен.</b>''')
+
+
+    async def rewrite_process(self, answer, message, request_text):
+        r = 'rewrite'
+        api_url = "http://api.onlysq.ru/ai/v2"
+        chat_id = str(message.chat_id)
+        rewrite = self.get_double_instruction()
+
+        payload = {
+            "model": "gpt-4o-mini",
+            "request": {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": f"{rewrite}\nЗапрос пользователя: {request_text}\nОтвет первой части модуля:{answer}"
+                    }
+                ]
+            }
+        }
+
+        try:
+            await message.edit("<b>💬Приходят к компромиссу...</b>")
+
+            async with aiohttp.ClientSession() as session:
+                async with session.post(api_url, json=payload) as response:
+                    response.raise_for_status()
+                    data = await response.json()
+                    answer = data.get("answer", "🚫 Ответ не получен.").strip()
+                    formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
+                    await message.edit(formatted_answer)
+
+        except aiohttp.ClientError as e:
+            await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
+
+
+
     @loader.unrestricted
     async def aicreatecmd(self, message):
         """
@@ -74,7 +129,7 @@ class AIsupport(loader.Module):
         r = "create"
         await self.process_request(message, self.module_instructions, r)
 
-    async def save_and_send_code(self, answer, message):
+    async def save_and_send_code(self, answer, message, request_text):
         """Сохраняет код в файл, отправляет его и удаляет."""
         try:
             code_start = answer.find("`python") + len("`python")
@@ -141,12 +196,15 @@ class AIsupport(loader.Module):
                         formatted_answer = f"💡<b> Ответ AI-помощника по Hikka | Спец. по ошибкам</b>:\n{answer}"
                         await message.edit(formatted_answer)
                     elif command == "sup":
-                        formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
-                        await message.edit(formatted_answer)
+                        await message.edit("<b>💬Модели советуются и обмениваются своими знаниями..</b>")
+                        await self.rewrite_process(answer, message, request_text)
                     elif command == "create":
                         await message.delete()
                         await message.respond(f"<b>Ответ AI-помощника по Hikka | Креатор модулей</b>:\n{answer}")
                         await self.save_and_send_code(answer, message)
+                    elif command == 'rewrite':
+                        formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
+                        await message.edit(formatted_answer)
                     else:
                         formatted_answer = answer
                         await message.edit(formatted_answer)
