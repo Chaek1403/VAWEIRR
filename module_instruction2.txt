@@ -5,157 +5,42 @@ Your task: Check the module code for bugs, the correctness of the chat.id and th
 Hikka is a multi-module userbot for Telegram, which is an architecture consisting of modules. You can load community modules into it, which expand its functionality. It is Open Source and completely free, just like its modules. You are one of these modules.
 Important note: Models are written in Telethon.
 
-modules for hikki are written based on their own library, and here is an example of code for spam in chat:
-" __version__ = (7,7,7)
-# meta developer: @Yaukais, @Shadow_red1
-from asyncio import gather, sleep
-from .. import loader, utils
+modules for hikka are written based on their own library, and here is an example of code for calculate in chat:
+" from hikkatl.types import Message  # Импортируем тип Message из hikkatl.types
+from .. import loader, utils  # Импортируем loader и utils из текущего пакета
 
-def register(cb):
-    cb(SpamMod())
+@loader.tds
+class Calculator(loader.Module):
+    """Простой калькулятор"""  # Описание модуля
 
-class SpamMod(loader.Module):
-    """Спам модуль"""
-    
-    strings = {"name": "Spam"}
-    
-    def __init__(self):
-        self.config = loader.ModuleConfig(
-            loader.ConfigValue(
-                "chat_id",
-                None,
-                doc="ID чата для спама. Если None, спам будет отправляться в текущий чат."
-            ),
-            loader.ConfigValue(
-                "spam_limit",
-                500,
-                doc="Лимит сообщений перед временной блокировкой спама."
-            ),
-            loader.ConfigValue(
-                "spam_timeout",
-                60,
-                doc="Время блокировки спама (в секундах) после достижения лимита."
-            )
-        )
-        self.spam_count = 0  # Счетчик сообщений
-        self.spam_blocked = False  # Флаг блокировки
+    strings = {
+        "name": "Calculator",  # Имя модуля
+        "result": "Результат: {}",  # Сообщение с результатом
+        "error": "Ошибка: {}",  # Сообщение об ошибке
+        "invalid_operation": "Недопустимая операция. Пожалуйста, используйте формат: <число> <операция> <число>."  # Сообщение для недопустимых операций
+    }
 
-    async def spamcmd(self, message):
-        """Обычный спам. Используй .spam <кол-во:int> <текст или реплай>."""
-        if self.spam_blocked:
-            return await message.client.send_message(message.to_id, "Спам временно отключен.")
-        
+    @loader.command(ru_doc="Выполнить арифметическую операцию")
+    async def calc(self, message: Message, operation: str):
+        """Команда для выполнения арифметических операций"""
         try:
-            await message.delete()
-            args = utils.get_args(message)
-            count = int(args[0].strip())
-            reply = await message.get_reply_message()
-            spam_target = self.config['chat_id'] if self.config['chat_id'] else message.to_id
-
-            if reply:
-                if reply.media:
-                    for _ in range(count):
-                        await message.client.send_file(spam_target, reply.media)
-                        self.spam_count += 1
-                        await self.check_spam_limit(message)
-                    return
+            # Проверяем, что сообщение пришло из чата
+            if message.chat_id:  # Убедимся, что chat_id существует
+                # Проверяем, что операция безопасна для выполнения
+                if any(op in operation for op in ['+', '-', '*', '/']):  # Проверяем наличие допустимых операций
+                    # Используем eval для вычисления выражения
+                    result = eval(operation)  # Вычисляем результат операции
+                    response = self.strings["result"].format(result)  # Формируем ответ с результатом
                 else:
-                    for _ in range(count):
-                        await message.client.send_message(spam_target, reply)
-                        self.spam_count += 1
-                        await self.check_spam_limit(message)
+                    response = self.strings["invalid_operation"]  # Обработка случая, если операция недопустима
             else:
-                message.message = " ".join(args[1:])
-                for _ in range(count):
-                    await gather(*[message.respond(message)])
-                    self.spam_count += 1
-                    await self.check_spam_limit(message)
-        except:
-            return await message.client.send_message(
-                message.to_id, ".spam <кол-во:int> <текст или реплай>."
-            )
+                response = self.strings["invalid_operation"]  # Обработка случая, если chat_id отсутствует
+        except Exception as e:
+            response = self.strings["error"].format(str(e))  # Обрабатываем ошибки и формируем ответ
 
-    async def check_spam_limit(self, message):
-        if self.spam_count >= self.config['spam_limit']:
-            self.spam_blocked = True
-            await message.client.send_message(message.to_id, "Достигнут лимит спама. Ожидание 1 мин.")
-            await sleep(self.config['spam_timeout'])
-            self.spam_count = 0
-            self.spam_blocked = False
-
-    async def cspamcmd(self, message):
-        """Спам символами. Используй .cspam <текст или реплай>."""
-        if self.spam_blocked:
-            return await message.client.send_message(message.to_id, "Спам временно отключен.")
-        await self._cspam_logic(message)
-
-    async def _cspam_logic(self, message):
-        await message.delete()
-        reply = await message.get_reply_message()
-        msg = reply.text if reply else utils.get_args_raw(message)
-        msg = msg.replace(" ", "")
-        spam_target = self.config['chat_id'] if self.config['chat_id'] else message.to_id
-        for m in msg:
-            await message.client.send_message(spam_target, m)
-            self.spam_count += 1
-            await self.check_spam_limit(message)
-
-    async def wspamcmd(self, message):
-        """Спам словами. Используй .wspam <текст или реплай>."""
-        if self.spam_blocked:
-            return await message.client.send_message(message.to_id, "Спам временно отключен.")
-        await self._wspam_logic(message)
-
-    async def _wspam_logic(self, message):
-        await message.delete()
-        reply = await message.get_reply_message()
-        msg = reply.text if reply else utils.get_args_raw(message)
-        msg = msg.split()
-        spam_target = self.config['chat_id'] if self.config['chat_id'] else message.to_id
-        for m in msg:
-            await message.client.send_message(spam_target, m)
-            self.spam_count += 1
-            await self.check_spam_limit(message)
-
-    async def delayspamcmd(self, message):
-        """Спам с задержкой. Используй .delayspam <время:int> <кол-во:int> <текст или реплай>."""
-        if self.spam_blocked:
-            return await message.client.send_message(message.to_id, "Спам временно отключен.")
-        await self._delayspam_logic(message)
-
-    async def _delayspam_logic(self, message):
-        try:
-            await message.delete()
-            args = utils.get_args_raw(message)
-            reply = await message.get_reply_message()
-            time = int(args.split(" ", 2)[0])
-            count = int(args.split(" ", 2)[1])
-            spam_target = self.config['chat_id'] if self.config['chat_id'] else message.to_id
-            
-            if reply:
-                if reply.media:
-                    for _ in range(count):
-                        await message.client.send_file(spam_target, reply.media)
-                        self.spam_count += 1
-                        await self.check_spam_limit(message)
-                        await sleep(time)
-                else:
-                    for _ in range(count):
-                        await message.client.send_message(spam_target, reply)
-                        self.spam_count += 1
-                        await self.check_spam_limit(message)
-                        await sleep(time)
-            else:
-                spammsg = args.split(" ", 2)[2]
-                for _ in range(count):
-                    await message.client.send_message(spam_target, spammsg)
-                    self.spam_count += 1
-                    await self.check_spam_limit(message)
-                    await sleep(time)
-        except:
-            return await message.client.send_message(
-                message.to_id, ".delayspam <время:int> <кол-во:int> <текст или реплай>"
-            ) "
+        # Отправляем ответ пользователю
+        await utils.answer(message, response)  # Отправляем сообщение с результатом
+"
 use this template as a guide, because using fragments from this code you will be able to write working code for the module.
 
 Explanations: functions ending in " cmd " - These are module commands. текст до " cmd " это команда.
