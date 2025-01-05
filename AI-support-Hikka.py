@@ -1,3 +1,4 @@
+# meta developer: @procot1
 import json
 import os  # Импортируем os
 
@@ -12,7 +13,7 @@ from time import sleep
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
-    🌘Version: 4.0 | Модули пораждают модули - FULL
+    🌘Version: 4.1 | Модули пораждают модули - FULL
     ⚡Разработчик: @procot1
     💚Оригинальный модуль
     """
@@ -94,9 +95,10 @@ class AIsupport(loader.Module):
         """
         - Информация об обновлении✅
         """
-        await message.edit('''<b>🧬Обновление 4.0:
+        await message.edit('''<b>🧬Обновление 4.1:
 Изменено:
 - Добавлена поэтапная система создания модуля. Для команды aicreate.
+- Если код большой, высылается просто файл
 
 Как это: 
 - Модель с дата-сетом(1) генерирует код
@@ -143,7 +145,6 @@ class AIsupport(loader.Module):
         chat_id = str(message.chat_id)
         rewrite = self.get_module_instruction2()
         api_url = "http://api.onlysq.ru/ai/v2"
-        sleep(4)
 
         payload = {
             "model": "gpt-4o-mini",
@@ -175,8 +176,7 @@ class AIsupport(loader.Module):
         chat_id = str(message.chat_id)
         rewrite = self.get_module_instruction3()
         api_url = "http://api.onlysq.ru/ai/v2"
-        sleep(4)
-
+    
         payload = {
             "model": "gpt-4o-mini",
             "request": {
@@ -188,21 +188,34 @@ class AIsupport(loader.Module):
                 ]
             }
         }
-
+    
         try:
             await message.edit("<b>🎭Создается модуль:\n🟢Создание кода\n🟢Протестировано\n💭Проверка на безопастность и финальное тестирование...</b>\n\nЕще заметка: Лучше проверяйте что написала нейросеть, перед тем как использовать модуль.")
-
+    
             async with aiohttp.ClientSession() as session:
                 async with session.post(api_url, json=payload) as response:
                     response.raise_for_status()
                     data = await response.json()
                     answer = data.get("answer", "🚫 Ответ не получен.").strip()
-                    await message.edit(f"<b>💡 Ответ AI-помощника по Hikka | Креатор модулей</b>:\n{answer}")
-                    await self.save_and_send_code(answer, message)
-                    
-
+    
+                    # Проверяем длину ответа
+                    if len(answer) > 4096:  # Максимальная длина сообщения в Telegram
+                        await message.edit("⚠️ Код модуля слишком большой для отправки в сообщении. Был выслан просто файл.")
+                        await self.save_and_send_code(answer, message)
+                    else:
+                        await message.edit(f"<b>💡 Ответ AI-помощника по Hikka | Креатор модулей</b>:\n{answer}")
+                        await self.save_and_send_code(answer, message)
+    
         except aiohttp.ClientError as e:
             await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
+    
+        except RPCError as e:
+            if "Message was too long" in str(e):
+                await message.edit("⚠️ Код модуля слишком большой для отправки в сообщении. Отправляю файл...")
+                await self.save_and_send_code(answer, message)
+            else:
+                await message.edit(f"⚠️ Ошибка RPC: {e}")
+
 
     
 
