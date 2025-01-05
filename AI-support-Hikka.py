@@ -1,4 +1,3 @@
-# meta developer: @procot1
 import json
 import os  # Импортируем os
 
@@ -13,7 +12,7 @@ from time import sleep
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
-    🌘Version: 3.0 Models of thinking - FULL
+    🌘Version: 4.0 | Модули пораждают модули - FULL
     ⚡Разработчик: @procot1
     💚Оригинальный модуль
     """
@@ -27,6 +26,8 @@ class AIsupport(loader.Module):
         self.module_instructions = self.get_module_instruction()
         self.double_instructions = self.get_double_instruction()
         self.allmodule_instruction = self.get_allmodule_instruction()
+        self.module_instruction2 = self.get_module_instruction2()
+        self.module_instruction3 = self.get_module_instruction3()
 
     @loader.unrestricted
     async def aisupcmd(self, message):
@@ -36,6 +37,7 @@ class AIsupport(loader.Module):
         
         🧠Скормлены знания: 
         • Установки | команды встроенных модулей | Внешние модули(40 модулей) | чаты Хикки | нюнсы Хикки | официальные тгк с модулями | меры безопасности | Список советов по устранению ошибок | Данные о хикке
+        
         """
         r = "sup"
         await self.process_request(message, self.instructions, r)
@@ -48,6 +50,7 @@ class AIsupport(loader.Module):
         
         🧠Скормлены знания(old data set):
         • команды встроенных модулей | чаты Хикки | больше нюансов и принципов работы Хикки | примеры ошибок и их решений | большой список советов по устранению ошибок
+        
         """
         r = "error"
         await self.process_request(message, self.error_instructions, r)
@@ -75,23 +78,33 @@ class AIsupport(loader.Module):
         url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/allmodules.txt'
         response = requests.get(url)
         return response.text
+        
+    def get_module_instruction2(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_instruction2.txt'
+        response = requests.get(url)
+        return response.text
+        
+    def get_module_instruction3(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_instruction3.txt'
+        response = requests.get(url)
+        return response.text
 
     @loader.unrestricted
     async def aiinfocmd(self, message):
         """
         - Информация об обновлении✅
         """
-        await message.edit('''<b>🧬Обновление 3.0:
+        await message.edit('''<b>🧬Обновление 4.0:
 Изменено:
-- Система 'Размышлений' доработана. Теперь перед ответом модель проверяет саму себя 3 раза используя разные дата сеты(знания)
+- Добавлена поэтапная система создания модуля. Для команды aicreate.
 
 Как это: 
-- Модель с дата-сетом(1) дает ответ на запрос.
-- затем модель с дата сетом(2) проверяет этот ответ и сверяет его со своими данными.
-- затем модель с дата сетом(3) проверяет предыдущий ответ и корректирует его.
-- после она дает финальный ответ, который будет более точен и верен.
+- Модель с дата-сетом(1) генерирует код
+- затем модель с дата сетом(2) проверяет и корректирует код.
+- затем модель с дата сетом(3) проверяет код на безопастность и корректирует код.
+- после получается готовый модуль.
 
-💫получается такая схема: Запрос>дт1>дт2>дт3>Ответ
+💫получается такая схема: Запрос>дт1>дт2>дт3>Модуль
 🔗Тг канал модуля: https://t.me/hikkagpt</b>''')
 
     async def allmodule(self, answer, message, request_text):
@@ -122,6 +135,71 @@ class AIsupport(loader.Module):
                     answer = data.get("answer", "🚫 Ответ не получен.").strip()
                     formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
                     await message.edit(formatted_answer)
+
+        except aiohttp.ClientError as e:
+            await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
+     
+    async def modulecreating(self, answer, message, request_text):
+        chat_id = str(message.chat_id)
+        rewrite = self.get_module_instruction2()
+        api_url = "http://api.onlysq.ru/ai/v2"
+        sleep(4)
+
+        payload = {
+            "model": "gpt-4o-mini",
+            "request": {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": f"{rewrite}\nUser request: {request_text}\nAnswer to the first part of the module:{answer}"
+                    }
+                ]
+            }
+        }
+
+        try:
+            await message.edit("<b>🎭Создается модуль:\n🟢Создание кода\n💭Тестирование...</b>\n\nЗаметка: чем лучше вы расспишите задачу для модели - тем лучше она создаст модуль. ")
+
+            async with aiohttp.ClientSession() as session:
+                async with session.post(api_url, json=payload) as response:
+                    response.raise_for_status()
+                    data = await response.json()
+                    answer = data.get("answer", "🚫 Ответ не получен.").strip()
+                    await self.modulecreating2(answer, message, request_text)
+
+        except aiohttp.ClientError as e:
+            await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
+            
+
+    async def modulecreating2(self, answer, message, request_text):
+        chat_id = str(message.chat_id)
+        rewrite = self.get_module_instruction3()
+        api_url = "http://api.onlysq.ru/ai/v2"
+        sleep(4)
+
+        payload = {
+            "model": "gpt-4o-mini",
+            "request": {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": f"{rewrite}\nUser request: {request_text}\nAnswer to the first part of the module:{answer}"
+                    }
+                ]
+            }
+        }
+
+        try:
+            await message.edit("<b>🎭Создается модуль:\n🟢Создание кода\n🟢Протестировано\n💭Проверка на безопастность и финальное тестирование...</b>\n\nЕще заметка: Лучше проверяйте что написала нейросеть, перед тем как использовать модуль.")
+
+            async with aiohttp.ClientSession() as session:
+                async with session.post(api_url, json=payload) as response:
+                    response.raise_for_status()
+                    data = await response.json()
+                    answer = data.get("answer", "🚫 Ответ не получен.").strip()
+                    await message.edit(f"<b>💡 Ответ AI-помощника по Hikka | Креатор модулей</b>:\n{answer}")
+                    await self.save_and_send_code(answer, message)
+                    
 
         except aiohttp.ClientError as e:
             await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
@@ -169,6 +247,7 @@ class AIsupport(loader.Module):
         
         🧠Скормлены знания:
         • Вся документация по написанию модулей Hikka (кроме Hikka only) | мелкие наводящие инструкции
+        
         """
         r = "create"
         await self.process_request(message, self.module_instructions, r)
@@ -243,9 +322,7 @@ class AIsupport(loader.Module):
                         await message.edit("<b>💬Размышления моделей начались..</b>")
                         await self.rewrite_process(answer, message, request_text)
                     elif command == "create":
-                        await message.delete()
-                        await message.respond(f"<b>Ответ AI-помощника по Hikka | Креатор модулей</b>:\n{answer}")
-                        await self.save_and_send_code(answer, message)
+                        await self.modulecreating(answer, message, request_text)
                     elif command == 'rewrite':
                         formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
                         await message.edit(formatted_answer)
