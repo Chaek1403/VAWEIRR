@@ -114,7 +114,6 @@ class AIsupport(loader.Module):
         chat_id = str(message.chat_id)
         rewrite2 = self.get_allmodule_instruction()
         api_url = "http://api.onlysq.ru/ai/v2"
-        sleep(4)
 
         payload = {
             "model": "gpt-3.5-turbo",
