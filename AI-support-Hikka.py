@@ -13,7 +13,7 @@ from time import sleep
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
-    🌘Version: 4.1 | Модули пораждают модули - FULL
+    🌘Version: 4.2 | Модули пораждают модули - Fixed
     ⚡Разработчик: @procot1
     💚Оригинальный модуль
     """
@@ -95,10 +95,11 @@ class AIsupport(loader.Module):
         """
         - Информация об обновлении✅
         """
-        await message.edit('''<b>🧬Обновление 4.1:
+        await message.edit('''<b>🧬Обновление 4.2:
 Изменено:
 - Добавлена поэтапная система создания модуля. Для команды aicreate.
 - Если код большой, высылается просто файл
+- исправлен долгий ответ помощника и ошибка 524 timeout.
 
 Как это: 
 - Модель с дата-сетом(1) генерирует код
@@ -116,7 +117,7 @@ class AIsupport(loader.Module):
         sleep(4)
 
         payload = {
-            "model": "gpt-4o-mini",
+            "model": "gpt-3.5-turbo",
             "request": {
                 "messages": [
                     {
@@ -147,7 +148,7 @@ class AIsupport(loader.Module):
         api_url = "http://api.onlysq.ru/ai/v2"
 
         payload = {
-            "model": "gpt-4o-mini",
+            "model": "gpt-3.5-turbo",
             "request": {
                 "messages": [
                     {
@@ -178,7 +179,7 @@ class AIsupport(loader.Module):
         api_url = "http://api.onlysq.ru/ai/v2"
     
         payload = {
-            "model": "gpt-4o-mini",
+            "model": "gpt-3.5-turbo",
             "request": {
                 "messages": [
                     {
@@ -226,7 +227,7 @@ class AIsupport(loader.Module):
         rewrite = self.get_double_instruction()
 
         payload = {
-            "model": "gpt-4o-mini",
+            "model": "gpt-3.5-turbo",
             "request": {
                 "messages": [
                     {
@@ -308,7 +309,7 @@ class AIsupport(loader.Module):
         chat_id = str(message.chat_id)
 
         payload = {
-            "model": "gpt-4o-mini",
+            "model": "gpt-3.5-turbo", #3.5 потому что модели gpt-4 сейчас не исправны у OnlySq. Можете переодически менять модель на gpt-4o-mini, что бы проверить работает ли.
             "request": {
                 "messages": [
                     {
