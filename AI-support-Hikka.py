@@ -1,4 +1,4 @@
-#meta developer: @procot1
+#meta developer: @procot
 import json
 import os
 
