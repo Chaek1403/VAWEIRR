@@ -1,4 +1,4 @@
-#meta developer: @procot1
+#meta developer: @procot1 & @devjmodules
 import json
 import os
 
@@ -8,12 +8,13 @@ from telethon import events
 from .. import loader, utils
 import re
 from time import sleep
+from bs4 import BeautifulSoup
 
 @loader.tds
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
-    🌘Version: 4.3 | Оптимизированный код - Improved
+    🌘Version: 5.0 | Два API на выбор
     ⚡Разработчик: @procot1
     💚Оригинальный модуль
     """
@@ -30,6 +31,9 @@ class AIsupport(loader.Module):
         self.module_instruction2 = self.get_module_instruction2()
         self.module_instruction3 = self.get_module_instruction3()
         self.metod = "on"
+        self.provider = 'onlysq'
+        self.api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
 
     @loader.unrestricted
     async def aisupcmd(self, message):
@@ -97,9 +101,9 @@ class AIsupport(loader.Module):
         """
         - Информация об обновлении✅
         """
-        await message.edit('''<b>🧬Обновление 4.3:
+        await message.edit('''<b>🧬Обновление 5.0:
 Изменено:
-- Код был оптимизирован.
+- Теперь имеется 2 API провайдера: onlysq и devj. Изменить провайдера API для запросов можно с помощью команды .apiswitch.
 
 Система поэтапного создания модуля: 
 - Модель с дата-сетом(1) генерирует код
@@ -110,31 +114,64 @@ class AIsupport(loader.Module):
 💫получается такая схема: Запрос>дт1>дт2>дт3>Модуль
 🔗Тг канал модуля: https://t.me/hikkagpt</b>''')
 
+    @loader.unrestricted
+    async def aiprovcmd(self, message):
+        """
+        - Информация о провайдерах
+        """
+        await message.edit('''<b>OnlySq: Стабильный, средняя скорость ответа.
+devj: Быстрая скорость ответа, Не стабилен из за разного возврата ответа от сервера что приводит к арбузам. P.s: Обезьянка может все съесть.</b>''')
+
 
     async def send_request_to_api(self, message, instructions, request_text, model="gpt-3.5-turbo"):
         """Отправляет запрос к API и возвращает ответ."""
-        api_url = "http://api.onlysq.ru/ai/v2"
-        payload = {
-            "model": model,
-            "request": {
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": f"{instructions}\nЗапрос пользователя: {request_text}"
-                    }
-                ]
+        api_url = "http://api.onlysq.ru/ai/v2" if self.provider == "onlysq" else "https://api.vysssotsky.ru/"
+        if self.provider == 'devj':
+            payload = {
+                    "model": "gpt-4",
+                    "messages": [{"role": "user", "content": f"{instructions}\nЗапрос пользователя: {request_text}"}],
+                    "max_tokens": 10048,
+                    "temperature": 0.7,
+                    "top_p": 1,
+                }
+        else:
+            payload = {
+                "model": 'gpt-3.5-turbo',
+                "request": {
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": f"{instructions}\nНе используй HTML и форматирование текста. Так же помни что тебе нужно сохранить ответ предыдущей части модуля, если ты не знаешь ответа. И передать его дальше.\nЗапрос пользователя: {request_text}"
+                        }
+                    ]
+                }
             }
-        }
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(api_url, json=payload) as response:
-                    response.raise_for_status()
-                    data = await response.json()
-                    answer = data.get("answer", "🚫 Ответ не получен.").strip()
-                    return answer
-        except aiohttp.ClientError as e:
-            await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
-            return None
+        
+        if self.provider == 'devj':
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(f"https://api.vysssotsky.ru/v1/chat/completions", headers={"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}, data=json.dumps(payload)) as response:
+                        if response.status == 200:
+                            data = await response.json()
+                            answer = data.get("choices", [{}])[0].get("message", {}).get("content", self.strings("no_server_respond"))
+                            answer = f"<blockquote>{answer}</blockquote>"
+                            return answer
+
+                        else:
+                            await message.edit("⚠️ Ошибка при запросе к API: Обезьяна съела арбуз🍉. Деталей ошибки нет.")
+            except Exception as e:
+                await message.edit(f"⚠️ Ошибка при запросе к API: {e}")
+        else:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(api_url, json=payload) as response:
+                        response.raise_for_status()
+                        data = await response.json()
+                        answer = data.get("answer", "🚫 Ответ не получен.").strip()
+                        return answer
+            except aiohttp.ClientError as e:
+                await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
+                return None
 
 
     async def allmodule(self, answer, message, request_text):
@@ -177,6 +214,25 @@ class AIsupport(loader.Module):
         answer = await self.send_request_to_api(message, rewrite, f"Запрос пользователя: {request_text}\nОтвет первой части модуля:{answer}")
         if answer:
             await self.allmodule(answer, message, request_text)
+
+    @loader.unrestricted
+    async def apiswitchcmd(self, message):
+        """
+        Поменять API для запросов
+        Использование: `.apiswitch <провайдер>
+        доступные: onlysq и devj.
+        
+        """
+        args = utils.get_args_raw(message)
+        if args:
+            provider = args.lower()  # Получаем аргумент и приводим к нижнему регистру
+            if provider in ("onlysq", "devj"):
+                self.provider = provider
+                await message.edit(f"✅ Провайдер API изменен на {provider}")
+            else:
+                await message.edit("🚫 Недопустимый провайдер API. Доступные: onlysq, devj")
+        else:
+            await message.edit("🤔 Укажите провайдер API: onlysq или devj")
 
     @loader.unrestricted
     async def aicreatecmd(self, message):
