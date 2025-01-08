@@ -13,7 +13,7 @@ from time import sleep
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
-    🌘Version: 4.4 | Оптимизированный код - Improved
+    🌘Version: 4.3 | Оптимизированный код - Improved
     ⚡Разработчик: @procot1
     💚Оригинальный модуль
     """
@@ -97,7 +97,7 @@ class AIsupport(loader.Module):
         """
         - Информация об обновлении✅
         """
-        await message.edit('''<b>🧬Обновление 4.4:
+        await message.edit('''<b>🧬Обновление 4.3:
 Изменено:
 - Код был оптимизирован.
 
@@ -164,12 +164,12 @@ class AIsupport(loader.Module):
                 else:
                     await message.edit(f"<b>💡 Ответ AI-помощника по Hikka | Креатор модулей</b>:\n{answer}")
                     await self.save_and_send_code(answer, message)
-            except RPCError as e:
+            except Exception as e:
                 if "Message was too long" in str(e):
                     await message.edit("⚠️ Код модуля слишком большой для отправки в сообщении. Отправляю файл...")
                     await self.save_and_send_code(answer, message)
                 else:
-                    await message.edit(f"⚠️ Ошибка RPC: {e}")
+                    await message.edit(f"⚠️ Ошибка: {e}")
 
     async def rewrite_process(self, answer, message, request_text):
         rewrite = self.get_double_instruction()
