@@ -204,6 +204,10 @@ Patch: 1.2 Fixed
 
 Heroku - это форк на юзербота Hikka. Который предлагает фикс большинства багов и улучшенной безопастности. Все. Если первая часть модуля говорит что это облачное хранилище. То исправь ее ответ.
 
+установка Heroku:
+1. Команда для установки: .dlm https://raw.githubusercontent.com/coddrago/modules/main/SwitchToHeroku.py
+2. Отправить команду в любой чат: .switchtoheroku - Automatically switch to heroku
+
 Создатель Hikka - Даниил.
 
 
