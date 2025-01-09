@@ -1,4 +1,4 @@
-#meta developer: @proco1 & @devjmodules
+#meta developer: @procot1 & @devjmodules
 import json
 import os
 
@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
-    🌘Version: 5.0 | Два API на выбор
+    🌘Version: 5.1 | Data set: 4'
     ⚡Разработчик: @procot1
     💚Оригинальный модуль
     """
@@ -30,6 +30,7 @@ class AIsupport(loader.Module):
         self.allmodule_instruction = self.get_allmodule_instruction()
         self.module_instruction2 = self.get_module_instruction2()
         self.module_instruction3 = self.get_module_instruction3()
+        self.allmodule_instruction2 = self.get_allmodule_instruction2()
         self.metod = "on"
         self.provider = 'onlysq'
         self.api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
@@ -81,6 +82,11 @@ class AIsupport(loader.Module):
         response = requests.get(url)
         return response.text
 
+    def get_allmodule_instruction2(self):
+        url = "https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/allmodule2.txt"
+        response = requests.get(url)
+        return response.text
+    
     def get_allmodule_instruction(self):
         url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/allmodules.txt'
         response = requests.get(url)
@@ -101,9 +107,10 @@ class AIsupport(loader.Module):
         """
         - Информация об обновлении✅
         """
-        await message.edit('''<b>🧬Обновление 5.0:
+        await message.edit('''<b>🧬Обновление 5.1:
 Изменено:
 - Теперь имеется 2 API провайдера: onlysq и devj. Изменить провайдера API для запросов можно с помощью команды .apiswitch.
+- Добавлен data-set: 4. Команда aisup стала еще умнее.
 
 Система поэтапного создания модуля: 
 - Модель с дата-сетом(1) генерирует код
@@ -180,8 +187,7 @@ class AIsupport(loader.Module):
         await message.edit("<b>🎭Цепочка размышлений модели в процессе:\n🟢Первая модель приняла решение\n🟢Вторая модель приняла решение.\n💭Третья модель думает...</b>\n\nПочему так долго: каждая модель имеет свой дата сет. И сверяет ответ предыдущей модели с своими знаниями.")
         answer = await self.send_request_to_api(message, rewrite2, f"Запрос пользователя: {request_text}\nОтвет второй части модуля:{answer}")
         if answer:
-            formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
-            await message.edit(formatted_answer)
+            await self.allmodule2(answer, message, request_text)
     
     async def modulecreating(self, answer, message, request_text):
         rewrite = self.get_module_instruction2()
@@ -190,6 +196,14 @@ class AIsupport(loader.Module):
         if answer:
             await self.modulecreating2(answer, message, request_text)
 
+    async def allmodule2(self, answer, message, request_text):
+        rewrite3 = self.get_allmodule_instruction2()  # Используем новый датасет
+        await message.edit("<b>🎭Цепочка размышлений модели в процессе:\n🟢Первая модель приняла решение\n🟢Вторая модель приняла решение.\n🟢Третья модель приняла решение\n💭Четвертая модель думает...</b>\n\nПочему так долго: каждая модель имеет свой дата сет. И сверяет ответ предыдущей модели с своими знаниями.")
+        answer = await self.send_request_to_api(message, rewrite3, f"Запрос пользователя: {request_text}\nОтвет третьей части модуля:{answer}")
+        if answer:
+            formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
+            await message.edit(formatted_answer)
+    
     async def modulecreating2(self, answer, message, request_text):
         rewrite = self.get_module_instruction3()
         await message.edit("<b>🎭Создается модуль:\n🟢Создание кода\n🟢Протестировано\n💭Проверка на безопастность и финальное тестирование...</b>\n\nЕще заметка: Лучше проверяйте что написала нейросеть, перед тем как использовать модуль.")
@@ -319,7 +333,7 @@ class AIsupport(loader.Module):
                         await message.edit("<b>💬Размышления моделей начались..</b>")
                         await self.rewrite_process(answer, message, request_text)
                     else:
-                        formatted_answer = f"💡<b> Ответ AI-помощника по Hikka | Режим быстрого ответа:</b>:\n{answer}"
+                        formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka | Режим быстрого ответа</b>:\n{answer}\n\n❕В этом режиме модель ограничена знаниями встроенных модулей и базовой документации hikka"
                         await message.edit(formatted_answer)
                 elif command == "create":
                     await self.modulecreating(answer, message, request_text)
