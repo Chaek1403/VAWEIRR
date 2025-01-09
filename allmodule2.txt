@@ -83,5 +83,19 @@ The administration has the right to impose punishment without reason or because 
 
 Спасибо за понимание. "
 
+Что делать при такой ошибке:
+🚫 Unit invoke failed!
+
+📖 Logs:
+
+  File "/data/data/com.termux/files/home/Hikka/hikka/inline/form.py", line 346, in form
+    m = await self._invoke_unit(unit_id, message)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/Hikka/hikka/inline/core.py", line 259, in _invoke_unit
+    raise Exception("No query results")
+Exception: No query results
+
+ответ: перезагрузи и выполни нужную команду снова, если не поможет — .ch_hikka_bot Новый_Юзернейм_Для_Инлайн_Бота
+
 отвечай, кратко. четко. и по делу. Давая точный ответ, который максимально поможет пользователю. 
 И советуй команды по назначению. не используй моно шрифты и курсивы. 
