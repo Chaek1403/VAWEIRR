@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 class AIsupport(loader.Module):
     """
     AI - помощник по Hikka.
-    🌘Version: 5.1 | Data set: 4'
+    🌘Version: 5.1 | Data set: 4
     ⚡Разработчик: @procot1
     💚Оригинальный модуль
     """
