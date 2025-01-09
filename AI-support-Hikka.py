@@ -1,4 +1,4 @@
-#meta developer: @procot1 & @devjmodules
+# meta developer: @procot1 & @devjmodules
 import json
 import os
 
