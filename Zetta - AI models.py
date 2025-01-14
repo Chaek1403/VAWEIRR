@@ -1,19 +1,27 @@
+# meta developer: @procot1
 import json
 
 import aiohttp
 from .. import loader, utils
 from telethon import events
+import requests
+from telethon import events
+from .. import loader, utils
+import re
+from time import sleep
+from bs4 import BeautifulSoup
 
 available_models = {
-    "1": "gpt-4o",
-    "2": "Command-R+",
-    "3": "gpt-4o-mini",
-    "4": "gemini",
-    "5": "llama-3.1",
-    "6": "copilot",
-    "7": "qwen",
-    "8": "claude-3-haiku",
-    "9": "claude-3.5-sonnet"
+    "1": "gpt-3.5-turbo",
+    "2": "gpt-4o",
+    "3": "Command-R+",
+    "4": "gpt-4o-mini",
+    "5": "gemini",
+    "6": "llama-3.1",
+    "7": "copilot",
+    "8": "qwen",
+    "9": "claude-3-haiku",
+    "10": "claude-3.5-sonnet"
 }
 
 # Путь к файлу для хранения личностей
@@ -42,13 +50,33 @@ personas = load_personas()
 @loader.tds
 class AIModule(loader.Module):
     """
-    🧠 Модуль для общения с ИИ. 
-    >>модуль является частью экосистемы Zetta - AI models<<
-    ✅Patch: 1.2 Fixed
+🧠 Модуль Zetta - AI Models
+>> Часть экосистемы Zetta - AI models << 
+🌒 Version: 7.0 | GLOBAL
 
-    Режимы работы:
-     - **Одиночный запрос:** `.ai <запрос>` - быстрый ответ на вопрос без сохранения истории.
-     - **Чат:** `.chat` - диалог с ИИ, запоминающим контекст беседы.
+**Описание:**
+Модуль объединяет несколько мощных инструментов для работы с ИИ, делая общение и взаимодействие максимально удобным. Подходит как для быстрых запросов, так и для создания глубоких диалогов с контекстом.  
+
+**Режимы работы:**
+  - **Одиночный запрос:**
+    .ai **запрос** - мгновенный ответ без сохранения истории диалога.  
+
+  - **Чат:**
+    **.chat** - ведите диалог с ИИ, который запоминает контекст беседы.  
+
+  - **Создание личностей:**
+    Создавайте роли для ИИ, чтобы он мог выполнять уникальные задачи. Сохранение ролей и их переключение через **.switchpersona.**
+
+  - **Переписывание текстов:**
+    Используйте .rewrite для перевода, стилизации или упрощения сложных формулировок.  
+
+  - **Работа с Hikka Userbot:**
+    Команды aisup, aicreate, aierror помогут в создании, улучшении и отладке модулей.  
+
+**Особенности:**
+- Поддержка до 10 моделей ИИ.  
+- Полная интеграция с Telegram.  
+- Универсальность и практичность для любых задач.
     """
     strings = {"name": "Zetta - AI models"}
 
@@ -60,7 +88,78 @@ class AIModule(loader.Module):
         self.chat_archive = {}
         self.role = {}
         self.response_mode = {}
+        self.edit_promt = "off"
+        self.instructions = self.get_instructions()
+        self.error_instructions = self.get_error_instructions()
+        self.module_instructions = self.get_module_instruction()
+        self.double_instructions = self.get_double_instruction()
+        self.allmodule_instruction = self.get_allmodule_instruction()
+        self.module_instruction2 = self.get_module_instruction2()
+        self.module_instruction3 = self.get_module_instruction3()
+        self.allmodule_instruction2 = self.get_allmodule_instruction2()
+        self.metod = "on"
+        self.provider = 'onlysq'
+        self.api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 
+    @loader.unrestricted
+    async def aisupcmd(self, message):
+        """
+        Спросить у AI помощника.
+        Использование: `.aisup <запрос>` или ответить на сообщение с `.aisup`
+        """
+        r = "sup"
+        await self.process_request(message, self.instructions, r)
+
+    @loader.unrestricted
+    async def aierrorcmd(self, message):
+        """
+        Спросить у AI помощника об ошибке модуля.
+        Использование: `.aierror <запрос>` или ответить на сообщение с `.aierror`
+        """
+        r = "error"
+        await self.process_request(message, self.error_instructions, r)
+
+    def get_instructions(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/data-set1.txt'
+        response = requests.get(url)
+        return response.text
+
+    def get_error_instructions(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/error_instruction.txt'
+        response = requests.get(url)
+        return response.text
+
+    def get_module_instruction(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_instruction.txt'
+        response = requests.get(url)
+        return response.text
+
+    def get_double_instruction(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/data-set2.txt'
+        response = requests.get(url)
+        return response.text
+
+    def get_allmodule_instruction2(self):
+        url = "https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/data-set4.txt"
+        response = requests.get(url)
+        return response.text
+    
+    def get_allmodule_instruction(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/data-set3.txt'
+        response = requests.get(url)
+        return response.text
+        
+    def get_module_instruction2(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_instruction2.txt'
+        response = requests.get(url)
+        return response.text
+        
+    def get_module_instruction3(self):
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_instruction3.txt'
+        response = requests.get(url)
+        return response.text
+    
+    
     async def client_ready(self, client, db):
         self.client = client
         self.db = db
@@ -73,7 +172,7 @@ class AIModule(loader.Module):
     @loader.unrestricted
     async def modelcmd(self, message):
         """
-        Устанавливает модель по умолчанию.
+        Устанавливает модель ИИ по умолчанию.
         Использование: `.model <номер>` или `.model list` для списка.
         """
         args = utils.get_args_raw(message)
@@ -125,6 +224,218 @@ class AIModule(loader.Module):
             else:
                 await message.edit("💬 <b>Режим чата включен.</b>")
 
+    async def send_request_to_api(self, message, instructions, request_text, model="gpt-3.5-turbo"):
+        """Отправляет запрос к API и возвращает ответ."""
+        api_url = "http://api.onlysq.ru/ai/v2" if self.provider == "onlysq" else "https://api.vysssotsky.ru/"
+        if self.provider == 'devj':
+            payload = {
+                    "model": "gpt-4",
+                    "messages": [{"role": "user", "content": f"{instructions}\nЗапрос пользователя: {request_text}"}],
+                    "max_tokens": 10048,
+                    "temperature": 0.7,
+                    "top_p": 1,
+                }
+        else:
+            payload = {
+                "model": 'gpt-3.5-turbo',
+                "request": {
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": f"{instructions}\nНе используй HTML и форматирование текста. Так же помни что тебе нужно сохранить ответ предыдущей части модуля, если ты не знаешь ответа. И передать его дальше.\nЗапрос пользователя: {request_text}"
+                        }
+                    ]
+                }
+            }
+        
+        if self.provider == 'devj':
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(f"https://api.vysssotsky.ru/v1/chat/completions", headers={"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}, data=json.dumps(payload)) as response:
+                        if response.status == 200:
+                            data = await response.json()
+                            answer = data.get("choices", [{}])[0].get("message", {}).get("content", self.strings("no_server_respond"))
+                            answer = f"<blockquote>{answer}</blockquote>"
+                            return answer
+
+                        else:
+                            await message.edit("⚠️ Ошибка при запросе к API: Обезьяна съела арбуз🍉. Деталей ошибки нет.")
+            except Exception as e:
+                await message.edit(f"⚠️ Ошибка при запросе к API: {e}")
+        else:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(api_url, json=payload) as response:
+                        response.raise_for_status()
+                        data = await response.json()
+                        answer = data.get("answer", "🚫 Ответ не получен.").strip()
+                        return answer
+            except aiohttp.ClientError as e:
+                await message.edit(f"⚠️ Ошибка при запросе к API: {e}\n\n💡 Попробуйте поменять модель или проверить код модуля.")
+                return None
+
+
+
+    async def allmodule(self, answer, message, request_text):
+        rewrite2 = self.get_allmodule_instruction()
+        await message.edit("<b>🎭Цепочка размышлений модели в процессе:\n🟢Первая модель приняла решение\n🟢Вторая модель приняла решение.\n💭Третья модель думает...</b>\n\nПочему так долго: каждая модель имеет свой дата сет. И сверяет ответ предыдущей модели с своими знаниями.")
+        answer = await self.send_request_to_api(message, rewrite2, f"Запрос пользователя: {request_text}\nОтвет второй части модуля:{answer}")
+        if answer:
+            await self.allmodule2(answer, message, request_text)
+    
+    async def modulecreating(self, answer, message, request_text):
+        rewrite = self.get_module_instruction2()
+        await message.edit("<b>🎭Создается модуль:\n🟢Создание кода\n💭Тестирование...</b>\n\nЗаметка: чем лучше вы расспишите задачу для модели - тем лучше она создаст модуль. ")
+        answer = await self.send_request_to_api(message, rewrite, f"User request: {request_text}\nAnswer to the first part of the module:{answer}")
+        if answer:
+            await self.modulecreating2(answer, message, request_text)
+
+    async def allmodule2(self, answer, message, request_text):
+        rewrite3 = self.get_allmodule_instruction2()  # Используем новый датасет
+        await message.edit("<b>🎭Цепочка размышлений модели в процессе:\n🟢Первая модель приняла решение\n🟢Вторая модель приняла решение.\n🟢Третья модель приняла решение\n💭Четвертая модель думает...</b>\n\nПочему так долго: каждая модель имеет свой дата сет. И сверяет ответ предыдущей модели с своими знаниями.")
+        answer = await self.send_request_to_api(message, rewrite3, f"Запрос пользователя: {request_text}\nОтвет третьей части модуля:{answer}")
+        if answer:
+            formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
+            await message.edit(formatted_answer)
+    
+    async def modulecreating2(self, answer, message, request_text):
+        rewrite = self.get_module_instruction3()
+        await message.edit("<b>🎭Создается модуль:\n🟢Создание кода\n🟢Протестировано\n💭Проверка на безопастность и финальное тестирование...</b>\n\nЕще заметка: Лучше проверяйте что написала нейросеть, перед тем как использовать модуль.")
+        answer = await self.send_request_to_api(message, rewrite, f"User request: {request_text}\nAnswer to the first part of the module:{answer}")
+        if answer:
+            try:
+                if len(answer) > 4096:
+                    await message.edit("⚠️ Код модуля слишком большой для отправки в сообщении. Был выслан просто файл.")
+                    await self.save_and_send_code(answer, message)
+                else:
+                    await message.edit(f"<b>💡 Ответ AI-помощника по Hikka | Креатор модулей</b>:\n{answer}")
+                    await self.save_and_send_code(answer, message)
+            except Exception as e:
+                if "Message was too long" in str(e):
+                    await message.edit("⚠️ Код модуля слишком большой для отправки в сообщении. Отправляю файл...")
+                    await self.save_and_send_code(answer, message)
+                else:
+                    await message.edit(f"⚠️ Ошибка: {e}")
+
+    async def rewrite_process(self, answer, message, request_text):
+        rewrite = self.get_double_instruction()
+        await message.edit("<b>🎭Цепочка размышлений модели в процессе:\n🟢Первая модель приняла решение\n💭Вторая модель думает...</b>\n\nПочему так долго: каждая модель имеет свой дата сет. И сверяет ответ предыдущей модели с своими знаниями.")
+        answer = await self.send_request_to_api(message, rewrite, f"Запрос пользователя: {request_text}\nОтвет первой части модуля:{answer}")
+        if answer:
+            await self.allmodule(answer, message, request_text)
+
+    @loader.unrestricted
+    async def apiswitchcmd(self, message):
+        """
+        Поменять API для запросов
+        Использование: `.apiswitch <провайдер>
+        доступные: onlysq и devj.
+        
+        """
+        args = utils.get_args_raw(message)
+        if args:
+            provider = args.lower()  # Получаем аргумент и приводим к нижнему регистру
+            if provider in ("onlysq", "devj"):
+                self.provider = provider
+                await message.edit(f"✅ Провайдер API изменен на {provider}")
+            else:
+                await message.edit("🚫 Недопустимый провайдер API. Доступные: onlysq, devj")
+        else:
+            await message.edit("🤔 Укажите провайдер API: onlysq или devj")
+
+    @loader.unrestricted
+    async def aicreatecmd(self, message):
+        """
+        Попросить AI помощника написать модуль.
+        Использование: `.aicreate <запрос>` или ответить на сообщение с `.aicreate` """
+        r = "create"
+        await self.process_request(message, self.module_instructions, r)
+
+    @loader.unrestricted
+    async def ultramodecmd(self, message):
+        """
+        Вкл/выкл качественного ответа для aisup
+        Использование: `.ultramode <on/off>`
+        
+        """
+        args = utils.get_args_raw(message)
+        if args:
+            metod = args.lower()
+            if metod in ("on", "off"):
+                self.metod = metod
+                if metod == 'on':
+                    await message.edit(f"📚 Качественный ответ включен. Скорость ответа aisup меньше.")
+                elif metod == 'off':
+                    await message.edit(f"🏃‍♂️‍➡️ Качественный ответ выключен. Скорость ответа aisup быстрее")
+            else:
+                await message.edit("🚫 Неправильные аргументы. Доступные: on, off")
+        else:
+            await message.edit("🤔 Укажите аргументы: on или off")
+
+    async def save_and_send_code(self, answer, message):
+        """Сохраняет код в файл, отправляет его и удаляет."""
+        try:
+            code_start = answer.find("`python") + len("`python")
+            code_end = answer.find("```", code_start)
+            code = answer[code_start:code_end].strip()
+    
+            with open("AI-module.py", "w") as f:
+                f.write(code)
+    
+            await message.client.send_file(
+                message.chat_id,
+                "AI-module.py",
+                caption="<b>💫Ваш готовый модуль</b>",
+            )
+    
+            os.remove("AI-module.py")
+    
+        except (TypeError, IndexError) as e:
+            await message.reply(f"Ошибка при извлечении кода: {e}")
+        except Exception as e:  
+            await message.reply(f"Ошибка при обработке кода: {e}")
+
+    async def process_request(self, message, instructions, command):
+        """
+        Обрабатывает запрос к API модели ИИ.
+        """
+        reply = await message.get_reply_message()
+        args = utils.get_args_raw(message)
+
+        if reply:
+            request_text = reply.raw_text
+        elif args:
+            request_text = args
+        else:
+            await message.edit("🤔 Введите запрос или ответьте на сообщение.")
+            return
+
+        try:
+            await message.edit("<b>🤔 Думаю...</b>")
+            answer = await self.send_request_to_api(message, instructions, request_text)
+            if answer:
+                if command == "error":
+                    formatted_answer = f"💡<b> Ответ AI-помощника по Hikka | Спец. по ошибкам</b>:\n{answer}"
+                    await message.edit(formatted_answer)
+                elif command == "sup":
+                    if self.metod == "on":
+                        await message.edit("<b>💬Размышления моделей начались..</b>")
+                        await self.rewrite_process(answer, message, request_text)
+                    else:
+                        formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka | Режим быстрого ответа</b>:\n{answer}\n\n❕В этом режиме модель ограничена знаниями встроенных модулей и базовой документации hikka"
+                        await message.edit(formatted_answer)
+                elif command == "create":
+                    await self.modulecreating(answer, message, request_text)
+                elif command == 'rewrite':
+                    formatted_answer = f"❔ Запрос:\n`{request_text}`\n\n💡 <b>Ответ AI-помощника по Hikka</b>:\n{answer}"
+                    await message.edit(formatted_answer)
+                else:
+                    formatted_answer = answer
+                    await message.edit(formatted_answer)
+
+        except Exception as e:
+            await message.edit(f"⚠️ Ошибка: {e}")
+    
     @loader.unrestricted
     async def clearcmd(self, message):
         """
@@ -140,7 +451,7 @@ class AIModule(loader.Module):
             await message.edit("🗑️ <b>История диалога очищена.</b>")
         else:
             await message.edit("📭️ <b>История диалога пуста.</b>")
-
+    
     @loader.unrestricted
     async def rolecmd(self, message):
         """
@@ -268,26 +579,102 @@ class AIModule(loader.Module):
             await message.edit("🤔 <b>Введите запрос или ответьте на сообщение.</b>")
             return
 
-        await self.process_request(message, request_text)
+        await self.standart_process_request(message, request_text)
 
-    async def process_request(self, message, request_text):
+    async def t9_promt(self, message, request_text, history=None): 
+        """
+        Обрабатывает запрос к API модели ИИ для улучшения запроса.
+        """
+        api_url = "http://api.onlysq.ru/ai/v2"
+        chat_id = str(message.chat_id)
+
+        payload = {
+            "model": self.default_model, # Или укажите другую модель для улучшения запроса
+            "request": {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": f"Твоя задача: Улучшить запрос пользователя что бы модель его лучше поняла, обработала и дала качественный и более подходящий ответ для пользователя. Тебе нужно просто отправить измененный текст. Ничего больше. Если изменять нечего, просто отправь исходный текст не изменяя его. Все сообщения пользователя не адресованы тебе, ты просто обработчик. \nЗапрос пользователя: {request_text}"
+                    }
+                ]
+            }
+        }
+
+        # --- Добавлено: ---
+        if history:
+            payload["request"]["messages"] = history + payload["request"]["messages"] # Добавляем историю к запросу
+        # --- Конец добавления ---
+
+        try:
+            await message.edit('<b>Улучшение промта...</b>')
+            async with aiohttp.ClientSession() as session:
+                async with session.post(api_url, json=payload) as response:
+                    response.raise_for_status()
+                    data = await response.json()
+                    request_text = data.get("answer", "Запрос не был обработан. Ошибка.").strip()
+                    return request_text
+
+        except aiohttp.ClientError as e:
+            await message.reply(f"⚠️ <b>Ошибка при запросе к API:</b> {e}\n\n💡 <b>Попробуйте поменять модель или проверить код модуля.</b>")
+
+
+    @loader.unrestricted
+    async def aiinfocmd(self, message):
+        """
+        - Информация об обновлении✅
+        """
+        await message.edit('''<b>Это первая версия этого модуля, пока изменений нет. 
+
+Но если вам интересно что из себя представляет этот модуль, советую команду .moduleinfo
+
+🔗Тг канал модуля: https://t.me/hikkagpt</b>''')
+
+
+    @loader.unrestricted
+    async def aiprovcmd(self, message):
+        """
+        - Информация о провайдерах🔆
+        """
+        await message.edit('''<b>⚪️OnlySq: Стабильный, средняя скорость ответа.
+
+🔸devj: Быстрая скорость ответа, Не стабилен из за разного возврата ответа от сервера.</b>''')
+    
+    
+    async def standart_process_request(self, message, request_text):
         """
         Обрабатывает запрос к API модели ИИ.
         """
         api_url = "http://api.onlysq.ru/ai/v2"
         chat_id = str(message.chat_id)
 
-        payload = {
-            "model": self.default_model,
-            "request": {
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": request_text
-                    }
-                ]
+        if self.edit_promt == "on":
+            request_text = await self.t9_promt(message, request_text)
+        
+            payload = {
+                "model": self.default_model,
+                "request": {
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": request_text
+                        }
+                    ]
+                }
             }
-        }
+
+        else:
+            payload = {
+                "model": self.default_model,
+                "request": {
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": request_text
+                        }
+                    ]
+                }
+            }
+
 
         try:
             await message.edit("🤔 <b>Думаю...</b>")
@@ -298,11 +685,35 @@ class AIModule(loader.Module):
                     data = await response.json()
                     answer = data.get("answer", "🚫 <b>Ответ не получен.</b>").strip()
 
-                    formatted_answer = f"❔ <b>Запрос:</b>\n`{request_text}`\n\n💡 <b>Ответ модели {self.default_model}:</b>\n{answer}"
+                    if self.edit_promt == "on":
+                        formatted_answer = f"❔ <b>Улучшенный запрос с помощью ИИ:</b>\n`{request_text}`\n\n💡 <b>Ответ модели {self.default_model}:</b>\n{answer}"
+                    else:
+                        formatted_answer = f"❔ <b>Запрос:</b>\n`{request_text}`\n\n💡 <b>Ответ модели {self.default_model}:</b>\n{answer}"
                     await message.edit(formatted_answer)
 
         except aiohttp.ClientError as e:
             await message.edit(f"⚠️ <b>Ошибка при запросе к API:</b> {e}\n\n💡 <b>Попробуйте поменять модель или проверить код модуля.</b>")
+
+    @loader.unrestricted
+    async def superpromtcmd(self, message):
+        """
+        Вкл/выкл улучшения вашего промта
+        Использование: `.superpromt <on/off>`
+        
+        """
+        args = utils.get_args_raw(message)
+        if args:
+            edit_promt = args.lower()
+            if edit_promt in ("on", "off"):
+                self.edit_promt = edit_promt
+                if edit_promt == 'on':
+                    await message.edit(f"💫 <b>Улучшение вашего промта включено.\n\nПолезно для тех, кто не умеет правильно задавать промт или нету на это времени.</b>")
+                elif edit_promt == 'off':
+                    await message.edit(f"💬 <b>Улучшение вашего промта выключено</b>")
+            else:
+                await message.edit("🚫 Неправильные аргументы. Доступные: on, off")
+        else:
+            await message.edit("🤔 Укажите аргументы: on или off")
 
     @loader.unrestricted
     async def watcher(self, message):
@@ -323,6 +734,7 @@ class AIModule(loader.Module):
     
                 # Добавляем имя к запросу, сохраняя в историю
                 await self.respond_to_message(message, user_name, question)
+                    
     
     async def is_reply_to_bot(self, message):
         """
@@ -366,7 +778,20 @@ class AIModule(loader.Module):
         if len(self.chat_history[chat_id]) > 1000:
             self.chat_history[chat_id] = self.chat_history[chat_id][-1000:]
 
+        # --- Добавлено: ---
+        if self.edit_promt == "on":
+        # --- Добавлено: ---
+        # Вызов функции t9_promt для улучшения запроса
+            request_text = await self.t9_promt(message, question, self.chat_history[chat_id])
+            question = request_text
+        # --- Конец добавления ---
+            
+        self.chat_history[chat_id][-1]["content"] = f"{user_name} написал: {question}" 
+
         api_url = "http://api.onlysq.ru/ai/v2"
+        if self.edit_promt == "on":
+            await message.edit(f"<b>Улучшенный промт с помощью ИИ:</b>\n{question}")
+            
 
         payload = {
             "model": self.default_model,
@@ -390,10 +815,10 @@ class AIModule(loader.Module):
                     })
                     self.db.set("AIModule", "chat_history", self.chat_history)
 
-                    await message.respond(f"<b>Ответ модели {self.default_model}:</b>\n{answer}")
+                    await message.reply(f"<b>Ответ модели {self.default_model}:</b>\n{answer}")
 
         except aiohttp.ClientError as e:
-            await message.respond(f"⚠️ <b>Ошибка при запросе к API:</b> {e}\n\n💡 <b>Попробуйте поменять модель или проверить код модуля.</b>")
+            await message.reply(f"⚠️ <b>Ошибка при запросе к API:</b> {e}\n\n💡 <b>Попробуйте поменять модель или проверить код модуля.</b>")
 
     @loader.unrestricted
     async def moduleinfocmd(self, message):  # Changed command name
@@ -401,14 +826,62 @@ class AIModule(loader.Module):
         Дополнительная информация о модуле и других проектах.
         """
         info_text = """
-         <b>Дополнительная информация:</b>
+        <b>💡 Дополнительная информация</b>
 
-<b>Автор:</b> VAWEIRR
+<b>📌 Автор:</b> <a href="https://t.me/procot1">@procot1</a>  
+🌐 <b>Модуль является частью экосистемы Zetta - AI models.</b>  
+📖 Весь его потенциал можно раскрыть с помощью бота: <a href="https://t.me/gpt4o_freetouse_bot">@gpt4o_freetouse_bot</a>.  
 
-<b>модуль является частью экосистемы Zetta - AI models.</b>
-И весь его потенциал вы можете раскрыть используя моего бота: @gpt4o_freetouse_bot
+---
 
-✅Patch: 1.2 Fixed
+<b>🔥 Особенности модуля:</b>  
+💼 <i>Объединён функционал 3 разных модулей!</i>  
+Это делает его <b>универсальным</b>, <b>практичным</b> и <b>удобным</b>.  
+<b>Все лучшие разработки собраны в одном месте.</b>
+
+---
+
+<b>🎯 Возможности модуля:</b>  
+1️⃣ <b>Поиск как в Google.</b>  
+Используйте модуль для <i>быстрого и точного</i> поиска информации.  
+
+2️⃣ <b>Чат с моделью ИИ.</b>  
+- Запускайте диалог в любом чате.  
+- ИИ различает участников беседы благодаря передаче <i>ников</i>.  
+- Модель может стать полноценным <i>участником ваших обсуждений.</i>  
+
+3️⃣ <b>Создание личностей.</b>  
+- Задайте временную роль для модели в чате.  
+- Создайте <i>постоянную личность</i> с функцией сохранения ролей.  
+- Используйте команду <code>.switchpersona</code> для <i>мгновенного переключения</i> ролей.  
+
+4️⃣ <b>Выбор до 10 моделей ИИ.</b>  
+Настраивайте работу с различными моделями под ваши задачи.  
+
+5️⃣ <b>Запросы для Hikka Userbot.</b>  
+- Команды <code>aisup</code>/<code>aicreate</code>/<code>aierror</code> помогут:  
+    🔹 Узнать любую информацию про Hikka Userbot.  
+    🔹 Решить проблему.  
+    🔹 Создать или улучшить модуль.  
+
+6️⃣ <b>Переписывание текстов (<code>.rewrite</code>):</b>  
+- Эффективный перевод.  
+- Стилизация текста.  
+- Упрощение сложных формулировок.  
+
+---
+
+<b>💡 Почему этот модуль уникален?</b>  
+Функционал модуля <i>огромен.</i>  
+Освоив его, вы сможете использовать возможности ИИ на <b>максимум.</b>
+
+---
+
+📢 <b>Не упустите важное!</b>  
+🔗 Подписывайтесь на канал: <a href="https://t.me/hikkagpt">@hikkagpt</a>  
+
+✨ <b>Раскройте весь потенциал Zetta - AI models уже сегодня!</b>
+
 
         """
         await message.edit(info_text)
