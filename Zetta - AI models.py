@@ -66,7 +66,7 @@ class AIModule(loader.Module):
     """
 🧠 Модуль Zetta - AI Models
 >> Часть экосистемы Zetta - AI models << 
-🌒 Version: 8.0 | MoDeLs
+🌒 Version: 8.1 | MoDeLs
 
 **Описание:**
 Модуль объединяет несколько мощных инструментов для работы с ИИ, делая общение и взаимодействие максимально удобным. Подходит как для быстрых запросов, так и для создания глубоких диалогов с контекстом.  
@@ -139,12 +139,12 @@ class AIModule(loader.Module):
         return response.text
 
     def get_error_instructions(self):
-        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/error_instruction.txt'
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/error_set.txt'
         response = requests.get(url)
         return response.text
 
     def get_module_instruction(self):
-        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_instruction.txt'
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_set.txt'
         response = requests.get(url)
         return response.text
 
@@ -164,12 +164,12 @@ class AIModule(loader.Module):
         return response.text
         
     def get_module_instruction2(self):
-        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_instruction2.txt'
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_set2.txt'
         response = requests.get(url)
         return response.text
         
     def get_module_instruction3(self):
-        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_instruction3.txt'
+        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/module_set3.txt'
         response = requests.get(url)
         return response.text
     
