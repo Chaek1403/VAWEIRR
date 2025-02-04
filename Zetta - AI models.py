@@ -11,7 +11,6 @@ import re
 from time import sleep
 from bs4 import BeautifulSoup
 import base64
-import speech_recognition as sr
 from telethon.tl.custom import Message 
 
 available_models = {
@@ -55,19 +54,7 @@ def save_personas(personas):
     with open(PERSONAS_FILE, "w", encoding="utf-8") as f:
         json.dump(personas, f, indent=4)
 
-def recognize_audio(audio_path):
-    """Распознает текст из аудиофайла с помощью библиотеки SpeechRecognition"""
-    recognizer = sr.Recognizer()
-    try:
-        with sr.AudioFile(audio_path) as source:
-            audio_data = recognizer.record(source)
-            recognized_text = recognizer.recognize_google(audio_data, language="ru-RU")
-            return recognized_text
-    except sr.UnknownValueError:
-        return None  # Если текст не удалось распознать
-    except sr.RequestError as e:
-        print(f"Ошибка сервиса распознавания: {e}")
-        return None
+
 
 
 # Загружаем личности при запуске модуля
