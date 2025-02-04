@@ -12,7 +12,6 @@ from time import sleep
 from bs4 import BeautifulSoup
 import base64
 import speech_recognition as sr
-from pydub import AudioSegment
 from telethon.tl.custom import Message 
 
 available_models = {
