@@ -55,13 +55,15 @@ Info:
 Retrieve information about bot/user/chat
 ▫️ .userinfo Get object infomation
 
-KsenonGPT (v1.5.0):
+KsenonGPT (v1.5.4):
 KsenonGPT module for text and image generation using KsenonAPI
-▫️ .genimg Генерировать изображение - .genimg <prompt> <model>
-▫️ .gentext Генерировать текст - .gentext <prompt> <model>
-▫️ .imgmodels Лист моделей для изображений
-▫️ .kupdate Проверить обновления
-▫️ .txtmodels Лист текстовых моделей
+
+▫️ .genimg Generate image - .genimg <prompt> <model>
+▫️ .gentext Generate text - .gentext <prompt>
+▫️ .imgmodels List of image models
+▫️ .kupdate Check for updates
+▫️ .setmodel Set default AI model for text generation
+▫️ .txtmodels List of text models
 Команда установки KsenonGPT: .dlm https://raw.githubusercontent.com/TheKsenon/MyHikkaModules/main/ksenongpt.py
 
 Доступные модели в KsenonGPT:
@@ -81,8 +83,7 @@ gpt-4o-2024-05-13
 microsoft/Phi-3.5-mini-instruct
 Qwen/Qwen2.5-Coder-32B-Instruct
 Qwen/QwQ-32B-Preview
-У него 167 моделей
-api.theksenon.pro/v1/api/text/models
+У него 167 моделей: api.theksenon.pro/v1/api/text/models
 
 Image модели в KsenonGPT:
 flux-pro-mg
@@ -93,7 +94,15 @@ pixart-alpha
 Автор: ksenon. Использует свой API.
 
 LaTeX:
-Renders mathematical formulas in LaTeX pngs
+Renders mathematical formul🌘 KsenonGPT (v1.5.4):
+ℹ️ KsenonGPT module for text and image generation using KsenonAPI
+
+▫️ .genimg Generate image - .genimg <prompt> <model>
+▫️ .gentext Generate text - .gentext <prompt>
+▫️ .imgmodels List of image models
+▫️ .kupdate Check for updates
+▫️ .setmodel Set default AI model for text generation
+▫️ .txtmodels List of text modelsas in LaTeX pngs
 ▫️ .latex <formula> - Create LaTeX render
 
 LyaMusic:
@@ -133,10 +142,12 @@ VoiceToText:
 ▫️ .vtt Распознает текст из голосового или видеосообщения.
 
 Zetta - AI models:
-Модуль для общения с ИИ. 
->>модуль является частью экосистемы Zetta - AI models<<
-Версия: 8.1 - 10 новых моделей ИИ
-Команда установки Zetta: .dlm https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/Zetta%20-%20AI%20models.py
+Модуль Zetta - AI Models
+>>Часть экосистемы Zetta - AI models<< 
+Version: 8.3 | MoDeLs
+
+**Описание:**
+Модуль объединяет несколько мощных инструментов для работы с ИИ, делая общение и взаимодействие максимально удобным. Подходит как для быстрых запросов, так и для создания глубоких диалогов с контекстом.  
 
 **Режимы работы:**
   - **Одиночный запрос:**
@@ -155,7 +166,7 @@ Zetta - AI models:
     Команды aisup, aicreate, aierror помогут в создании, улучшении и отладке модулей.  
 
 **Особенности:**
-- Поддержка до 20 моделей ИИ.  
+- Поддержка до 21 моделей ИИ.  
 - Полная интеграция с Telegram.  
 - Универсальность и практичность для любых задач.
     
@@ -181,6 +192,8 @@ Zetta - AI models:
 Использование: `.createpersona <имя> <роль>`
 ▫️ .deletepersona Удаляет личность.
 Использование: `.deletepersona <имя>`
+▫️ .humanmode Вкл/выкл улучшения вашего промта
+Использование: `.humanmode <on/off>`
 ▫️ .mode Устанавливает режим ответа ИИ.
 Использование: `.mode <reply/all>`
 ▫️ .model Устанавливает модель ИИ по умолчанию.
