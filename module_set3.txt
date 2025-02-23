@@ -20,7 +20,6 @@ Modules for hikka are written based on their own libraries, but here is an examp
             
             if message.text:
                 request_text = message.text.strip()
-                user_name = await self.get_user_name(message)
                 await self.respond_to_message(message, user_name, request_text) 
 "
 
