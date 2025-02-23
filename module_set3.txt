@@ -12,15 +12,9 @@ Modules for hikka are written based on their own libraries, but here is an examp
         Следит за сообщениями и выполняет часть кода если появляются сообщения в чате.
         """
         chat_id = str(message.chat_id)
-        if self.active_chats.get(chat_id):
-            if self.response_mode.get(chat_id, "all") == "reply" and \
-               not (message.is_reply and await self.is_reply_to_bot(message)):
-                return
-
-            
-            if message.text:
-                request_text = message.text.strip()
-                await self.respond_to_message(message, user_name, request_text) 
+        if message.text:
+            request_text = message.text.strip()
+            await self.respond_to_message(message, user_name, request_text) 
 "
 
 
