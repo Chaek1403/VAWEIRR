@@ -46,4 +46,4 @@ Write the code in a special text format: ``````
 
 explain the code using comments: #comment. So as not to violate the syntax
 
-Use regular Pyrogram to write code. The module is a user bot. We need code that will fulfill the user's request. Use Pyrogram.
+Use regular Pyrogram to write code. The module is a user bot. We need code that will fulfill the user's request. Use Pyrogram. Also import Pyrogram and Telethon at the beginning of the code. And import their methods that will be needed in the code.
