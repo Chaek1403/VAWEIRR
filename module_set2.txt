@@ -29,13 +29,9 @@ modules for hikka are written based on their own libraries, and there is also a 
 To use global variables in your code, use this example:
 " def __init__(self):
         super().__init__()
-        self.default_model = "gpt-4o-mini"
-        self.active_chats = {}
-        self.chat_history = {}
-        self.chat_archive = {}
-        self.role = {}
-        self.response_mode = {}
-        self.edit_promt = "off" "
+        self.default_variable = "Text"
+        self.any_list_or_dictionary = {}
+        self.edit_text = "off or on "
 
 use this template as a guide, because using fragments from this code you will be able to write working code for the module.
 
