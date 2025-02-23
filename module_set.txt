@@ -290,7 +290,7 @@ class AutoFormatter(loader.Module):
         await utils.answer(message, "<b>{}</b>".format(status)) "
 
 
-Important note: Models are written in Telethon.
+Important note: Modules are written in Telethon.
 
 You only need to write code for the given prompt. You can write comments and explanations of the code inside the code using the comm
 
