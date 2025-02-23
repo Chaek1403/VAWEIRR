@@ -25,14 +25,14 @@ Modules for hikka are written based on their own libraries, but here is an examp
 
 
 Here is an example of how to process commands and extract arguments and text from them:
-" async def gentextcmd(self, message):
-        """Generate text - .gentext <prompt>"""
-        if not self.config["api_key"]:
-            await utils.answer(message, self.strings["no_api_key"])
+" async def commandcmd(self, message):
+        """command description"""
+        if not self.config["variable"]:
+            await utils.answer(message, self.strings["no_variable"])
             return
 
-        if not self.config["default_model"]:
-            await utils.answer(message, self.strings["need_set_model"])
+        if not self.config["2_variable"]:
+            await utils.answer(message, self.strings["need_2_variable"])
             return
 
         args = utils.get_args_raw(message)
@@ -40,10 +40,10 @@ Here is an example of how to process commands and extract arguments and text fro
             await utils.answer(message, self.strings["no_args"])
             return
 
-        prompt = args
-        model = self.config["default_model"]
+        text = args
+        model = self.config["2_variable"]
 
-        msg = await utils.answer(message, self.strings["generating_text"])
+        msg = await utils.answer(message, self.strings["starting"])
  
 "
 use this template as a guide, because using fragments from this code you will be able to write working code for the module.
