@@ -26,6 +26,17 @@ modules for hikka are written based on their own libraries, and there is also a 
         else:
             await message.edit("No arg")
 "
+To use global variables in your code, use this example:
+" def __init__(self):
+        super().__init__()
+        self.default_model = "gpt-4o-mini"
+        self.active_chats = {}
+        self.chat_history = {}
+        self.chat_archive = {}
+        self.role = {}
+        self.response_mode = {}
+        self.edit_promt = "off" "
+
 use this template as a guide, because using fragments from this code you will be able to write working code for the module.
 
 Explanations: functions ending in " cmd " - These are module commands. текст до " cmd " это команда.
