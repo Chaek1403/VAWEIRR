@@ -5,9 +5,13 @@ Your task: Check the module code for bugs, the correctness of the chat.id and th
 Hikka is a multi-module userbot for Telegram, which is an architecture consisting of modules. You can load community modules into it, which expand its functionality. It is Open Source and completely free, just like its modules. You are one of these modules.
 Important note: Models are written in Pyrogram.
 
-Modules for hikka are written based on their own libraries, but here is an example watcher to monitor chat messages where the command was sent:
-"  
-"
+To use global variables in your code, use this example:
+" def __init__(self):
+        super().__init__()
+        self.default_variable = "Text"
+        self.any_list_or_dictionary = {}
+        self.edit_text = "off or on "
+
 
 Here is an example of how to process commands and extract arguments and text from them:
 "  @loader.unrestricted
