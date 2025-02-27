@@ -6,38 +6,29 @@ Hikka is a multi-module userbot for Telegram, which is an architecture consistin
 Important note: Models are written in Pyrogram.
 
 Modules for hikka are written based on their own libraries, but here is an example watcher to monitor chat messages where the command was sent:
-" @loader.unrestricted
-    async def watcher(self, message):
-        """
-        Следит за сообщениями и выполняет часть кода если появляются сообщения в чате.
-        """
-        chat_id = str(message.chat_id)
-        if message.text:
-            request_text = message.text.strip()
-            await self.respond_to_message(message, user_name, request_text) 
+"  
 "
 
-
 Here is an example of how to process commands and extract arguments and text from them:
-" async def commandcmd(self, message):
-        """command description"""
-        if not self.config["variable"]:
-            await utils.answer(message, self.strings["no_variable"])
-            return
-
-        if not self.config["2_variable"]:
-            await utils.answer(message, self.strings["need_2_variable"])
-            return
-
+"  @loader.unrestricted
+    async def commandcmd(self, message):
+        """
+        Description
+        
+        """
         args = utils.get_args_raw(message)
-        if not args:
-            await utils.answer(message, self.strings["no_args"])
-            return
-
-        text = args
-        model = self.config["2_variable"]
-
-        msg = await utils.answer(message, self.strings["starting"])
+        if args:
+            variable = args.lower()
+            if variable in ("on", "off"):
+                self.variable = variable
+                if variable == 'on':
+                    ...
+                elif variable == 'off':
+                    ...
+            else:
+                ...
+        else:
+            ...
  
 "
 use this template as a guide, because using fragments from this code you will be able to write working code for the module.
@@ -53,4 +44,4 @@ Write the code in a special text format: ``````
 
 explain the code using comments: #comment. So as not to violate the syntax
 
-Use regular Pyrogram to write code. The module is a user bot. We need code that will fulfill the user's request. Use Pyrogram. Also import Pyrogram and Telethon at the beginning of the code. And import their methods that will be needed in the code.
+Use regular Pyrogram to write code. The module is a user bot. We need code that will fulfill the user's request. Use Pyrogram. Also import Pyrogram or Telethon at the beginning of the code. And import their methods that will be needed in the code.
