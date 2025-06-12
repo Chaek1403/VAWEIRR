@@ -83,7 +83,7 @@ class AIModule(loader.Module):
     """
 🧠 Модуль Zetta - AI Models
 >> Часть экосистемы Zetta - AI models <<
-🌒 Version: 11.2 | FastZetta Beta 1
+🌒 Version: 11.3 | FastZetta Beta 1 Fixed logs
 Основанно на базе инструментов API - @OnlySq
 
 📍Описание:
@@ -798,9 +798,10 @@ class AIModule(loader.Module):
         """
         - Информация об обновлении✅
         """
-        await message.edit('''<b>Обновление 11.2:
+        await message.edit('''<b>Обновление 11.3:
 Изменения:
 - Бета версия FastZetta. Первая бета.
+- Пофикшен лог спам в консоли.
 
 советуем команду .moduleinfo для подробной информации о модуле.
 
@@ -1157,10 +1158,8 @@ class AIModule(loader.Module):
         только в чатах, где FastZetta активна.
         """
         chat_id = str(message.chat_id)
-        logging.info(f"[FastZetta Watcher] Message received in chat {chat_id}. Active in this chat: {self.fastzetta_active_chats.get(chat_id)}, Trigger: '{self.fastzetta_trigger_word}'")
 
         if not self.fastzetta_active_chats.get(chat_id): # Проверяем, активен ли режим FastZetta для ЭТОГО чата
-            logging.info(f"[FastZetta Watcher] FastZetta not active in chat {chat_id}. Skipping.")
             return
         
         # Игнорируем свои собственные команды, чтобы избежать бесконечных циклов, но реагируем на обычные сообщения
@@ -1170,51 +1169,39 @@ class AIModule(loader.Module):
 
         request_text = ""
         if message.voice:
-            logging.info("[FastZetta Watcher] Voice message detected.")
             # Передаем None в качестве status_message для молчаливой обработки
             request_text = await self.handle_voice_message(voice_message=message, status_message=None)
             if not request_text:
-                logging.warning("[FastZetta Watcher] Voice message text not recognized. Skipping.")
                 return
         elif message.text:
             request_text = message.text.strip()
-            logging.info(f"[FastZetta Watcher] Text message detected. Content: '{request_text}'")
         else:
-            logging.info("[FastZetta Watcher] Message is neither text nor voice. Skipping.")
             return
 
         if not request_text:
-            logging.warning("[FastZetta Watcher] Empty request_text after processing. Skipping.")
             return
 
         # Проверяем, начинается ли сообщение с триггерного слова
         # Используем re.IGNORECASE для регистронезависимого поиска
         trigger_pattern = r"^{}\s*".format(re.escape(self.fastzetta_trigger_word))
-        logging.info(f"[FastZetta Watcher] Trigger pattern: '{trigger_pattern}' | Message text: '{request_text}'")
         match = re.match(trigger_pattern, request_text, re.IGNORECASE)
 
         if match:
-            logging.info("[FastZetta Watcher] Trigger word matched!")
             # Извлекаем текст после триггерного слова
             query = request_text[match.end():].strip()
-            logging.info(f"[FastZetta Watcher] Extracted query: '{query}'")
             
             if not query: # Если после триггера нет текста, игнорируем
-                logging.warning("[FastZetta Watcher] Query is empty after trigger. Skipping.")
                 return
 
             try:
                 # Отправляем запрос в API без сохранения контекста
-                logging.info(f"[FastZetta Watcher] Sending query to API for FastZetta: '{query}'")
                 answer = await self.send_request_to_api(message, "", query)
                 if answer:
-                    logging.info("[FastZetta Watcher] API response received. Replying.")
                     # Добавляем приписку "Ответ модели..."
                     await message.reply(f"<b>Ответ модели {self.default_model}:</b>\n{answer}")
                 else:
-                    logging.warning("[FastZetta Watcher] API returned no answer for FastZetta.")
             except Exception as e:
                 # Молча логируем ошибку, чтобы не спамить в чат
                 logging.error(f"[FastZetta Watcher] Error during API request for FastZetta: {e}", exc_info=True)
         else:
-            logging.info(f"[FastZetta Watcher] Trigger word '{self.fastzetta_trigger_word}' not found at beginning of message. Skipping.")
+            a = "a"
