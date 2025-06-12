@@ -1200,6 +1200,7 @@ class AIModule(loader.Module):
                     # Добавляем приписку "Ответ модели..."
                     await message.reply(f"<b>Ответ модели {self.default_model}:</b>\n{answer}")
                 else:
+                    a = "a"
             except Exception as e:
                 # Молча логируем ошибку, чтобы не спамить в чат
                 logging.error(f"[FastZetta Watcher] Error during API request for FastZetta: {e}", exc_info=True)
