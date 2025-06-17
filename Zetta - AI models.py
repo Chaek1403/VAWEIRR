@@ -124,7 +124,6 @@ class AIModule(loader.Module):
         self.response_mode = {}
         self.edit_promt = "off"
         self.instructions = self.get_instructions()
-        self.error_instructions = self.get_error_instructions()
         self.module_instructions = self.get_module_instruction()
         self.double_instructions = self.get_double_instruction()
         self.allmodule_instruction = self.get_allmodule_instruction()
@@ -788,7 +787,7 @@ class AIModule(loader.Module):
         await message.edit('''<b>Обновление 11.5:
 Изменения:
 - Бета версия FastZetta. Первая бета.
-- Убрана команда aierror. Ее дата сет объеденен в aisup. 
+- удален aierror.
 
 советуем команду .moduleinfo для подробной информации о модуле.
 
