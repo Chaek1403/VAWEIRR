@@ -75,15 +75,7 @@ Gemini (v4.1.1):
 
 
 LaTeX:
-Renders mathematical formul🌘 KsenonGPT (v1.5.4):
-ℹ️ KsenonGPT module for text and image generation using KsenonAPI
-
-▫️ .genimg Generate image - .genimg <prompt> <model>
-▫️ .gentext Generate text - .gentext <prompt>
-▫️ .imgmodels List of image models
-▫️ .kupdate Check for updates
-▫️ .setmodel Set default AI model for text generation
-▫️ .txtmodels List of text modelsas in LaTeX pngs
+Renders mathematical formule.
 ▫️ .latex <formula> - Create LaTeX render
 
 LyaMusic:
