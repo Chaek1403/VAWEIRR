@@ -83,7 +83,7 @@ class AIModule(loader.Module):
     """
 🧠 Модуль Zetta - AI Models
 >> Часть экосистемы Zetta - AI models <<
-🌒 Version: 11.4 | FastZetta Beta 1, aisup boosted.
+🌒 Version: 11.5 | FastZetta Beta 1, delete aierror
 Основанно на базе инструментов API - @OnlySq
 
 📍Описание:
@@ -104,7 +104,7 @@ class AIModule(loader.Module):
 Используйте .rewrite для перевода, стилизации или упрощения сложных текстов.
 
 Работа с Hikka Userbot:
-Команды aisup, aicreate, aierror задействуют дообученые модели GPT, и могут заменить вам чат поддержки Hikka или написать вам модуль.
+Команды aisup и aicreate задействуют дообученые модели GPT, и могут заменить вам чат поддержки Hikka или написать вам модуль.
 
 Особенности:
 - Поддержка до 27 моделей ИИ.
@@ -148,22 +148,9 @@ class AIModule(loader.Module):
         r = "sup"
         await self.process_request(message, self.instructions, r)
 
-    @loader.unrestricted
-    async def aierrorcmd(self, message):
-        """
-        Спросить у AI помощника  для Hikka об ошибке модуля.
-        Использование: `.aierror <запрос>` или ответить на сообщение с `.aierror`
-        """
-        r = "error"
-        await self.process_request(message, self.error_instructions, r)
 
     def get_instructions(self):
         url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/data-set1.txt'
-        response = requests.get(url)
-        return response.text
-
-    def get_error_instructions(self):
-        url = 'https://raw.githubusercontent.com/Chaek1403/VAWEIRR/refs/heads/main/error_set.txt'
         response = requests.get(url)
         return response.text
 
@@ -798,11 +785,10 @@ class AIModule(loader.Module):
         """
         - Информация об обновлении✅
         """
-        await message.edit('''<b>Обновление 11.4:
+        await message.edit('''<b>Обновление 11.5:
 Изменения:
 - Бета версия FastZetta. Первая бета.
-- Ускорен aisup за счет установки конкретной модели в коде (gemini 2.5 flash).
-- Вложен потенциал в aisup, и его база знаний может быть увеличена в 4 раза, без необходимости обновлять модуль. Необходимо лишь обучить aisup.
+- Убрана команда aierror. Ее дата сет объеденен в aisup. 
 
 советуем команду .moduleinfo для подробной информации о модуле.
 
@@ -1092,7 +1078,7 @@ class AIModule(loader.Module):
 Настраивайте работу с различными моделями под ваши задачи.
 
 5️⃣ <b>Запросы для Hikka Userbot.</b>
-- Команды <code>aisup</code>/<code>aicreate</code>/<code>aierror</code> помогут:
+- Команды <code>aisup</code>/<code>aicreate</code> помогут:
     🔹 Узнать любую информацию про Hikka Userbot.
     🔹 Решить проблему Hikka Userbot
     🔹 Создать или улучшить модуль для Hikka Userbot
