@@ -1,3 +1,4 @@
+# meta developer: @hikkagpt
 import aiohttp
 import base64
 import json
