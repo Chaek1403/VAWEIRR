@@ -404,7 +404,7 @@ FastZetta:
 
     async def send_request_to_api(self, message, instructions, request_text, model="gpt-4o-mini", history_list=None):
         """Отправляет запрос к API и возвращает ответ. Может использовать историю."""
-        api_url = "http://109.172.94.236:5001/OnlySq-Zetta/v1/models" if self.provider == "OnlySq-Zetta" else "https://api.vysssotsky.ru/"
+        api_url = "http://127.0.0.1:5001/OnlySq-Zetta/v1/models" if self.provider == "OnlySq-Zetta" else "https://api.vysssotsky.ru/"
 
         if self.provider == 'devj':
             # Логика для devj не менялась, так как запрос не затрагивал его
@@ -977,7 +977,7 @@ FastZetta:
         """
         Обрабатывает запрос к API для улучшения запроса.
         """
-        api_url = "http://109.172.94.236:5001/OnlySq-Zetta/v1/models"
+        api_url = "http://127.0.0.1:5001/OnlySq-Zetta/v1/models"
         chat_id = str(message.chat_id)
 
         system_prompt = (
