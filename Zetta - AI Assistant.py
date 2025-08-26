@@ -368,7 +368,7 @@ class ZettaAIAssistantMod(loader.Module):
     # --- API ---
 
     async def send_request_to_api(self, messages, model):
-        api_url = "http://127.0.0.1:5001/OnlySq-Zetta/v1/models" if self.provider == "OnlySq-Zetta" else "https://api.vysssotsky.ru/"
+        api_url = "http://195.62.49.61:5001/OnlySq-Zetta/v1/models" if self.provider == "OnlySq-Zetta" else "https://api.vysssotsky.ru/"
         if self.provider == 'Devj': payload = {"model": "gpt-4", "messages": messages, "max_tokens": 4096}
         else: payload = {"model": model, "request": {"messages": messages}}
         try:
