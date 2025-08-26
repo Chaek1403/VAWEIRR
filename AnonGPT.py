@@ -1,4 +1,3 @@
-# meta developer: @hikkagpt
 import aiohttp
 import base64
 import json
@@ -18,7 +17,6 @@ class AnonGPT(loader.Module):
     """
     🧠 AnonGPT | Zetta AI
     🌒 v1.2 | Beta — ИИ теперь может не отвечать на сообщения, плюс новый шаблон.
-    Работа модуля улучшена.
 
     Модуль для общения и развлечения в боте @AnonRuBot.
     ИИ подключается в чат с заданной ролью и ведёт диалог.
@@ -45,7 +43,7 @@ class AnonGPT(loader.Module):
     strings = {"name": "AnonGPT"}
 
     async def client_ready(self, client, db):
-        self.api_url = "http://109.172.94.236:5001/OnlySq-Zetta/v1/models"
+        self.api_url = "http://127.0.0.1:5001/OnlySq-Zetta/v1/models"
         self.default_model = "gemini-2.5-flash"
         self.active_chats = {}
         self.chat_history = {}
