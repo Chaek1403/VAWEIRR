@@ -1,4 +1,4 @@
-# meta developer: @hikkagpt
+# -*- coding: utf-8 -*-
 import json
 import logging
 import aiohttp
@@ -368,7 +368,7 @@ class ZettaAIAssistantMod(loader.Module):
     # --- API ---
 
     async def send_request_to_api(self, messages, model):
-        api_url = "http://109.172.94.236:5001/OnlySq-Zetta/v1/models" if self.provider == "OnlySq-Zetta" else "https://api.vysssotsky.ru/"
+        api_url = "http://127.0.0.1:5001/OnlySq-Zetta/v1/models" if self.provider == "OnlySq-Zetta" else "https://api.vysssotsky.ru/"
         if self.provider == 'Devj': payload = {"model": "gpt-4", "messages": messages, "max_tokens": 4096}
         else: payload = {"model": model, "request": {"messages": messages}}
         try:
