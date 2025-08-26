@@ -1,3 +1,4 @@
+
 import aiohttp
 import base64
 import json
@@ -43,7 +44,7 @@ class AnonGPT(loader.Module):
     strings = {"name": "AnonGPT"}
 
     async def client_ready(self, client, db):
-        self.api_url = "http://127.0.0.1:5001/OnlySq-Zetta/v1/models"
+        self.api_url = "http://195.62.49.61:5001/OnlySq-Zetta/v1/models"
         self.default_model = "gemini-2.5-flash"
         self.active_chats = {}
         self.chat_history = {}
