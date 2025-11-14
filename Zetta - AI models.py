@@ -29,7 +29,7 @@ available_models = {
     "1": "o3-PRO",
     "2": "o1-PRO",
     "3": "o3-Mini-High",
-    "4": "Grok 3",
+    "4": "Grok 4",
     "5": "GPT 4.1",
     "6": "qwen3-235b-a22b",
     "7": "qwen-max-latest",
@@ -38,7 +38,7 @@ available_models = {
     "10": "qwen2.5-coder-32b-instruct",
     "11": "qwen2.5-72b-instruct",
     "12": "gpt-4.5",
-    "13": "gpt-4o",
+    "13": "gpt-5",
     "14": "gpt-4o-mini",
     "15": "gpt4-turbo",
     "16": "gpt-3.5-turbo",
@@ -55,10 +55,9 @@ available_models = {
     "27": "llama-3.3-8b",
     "28": "llama-3.1",
     "29": "llama-2",
-    "30": "claude-3.5-sonnet",
+    "30": "claude-4.5-sonnet",
     "31": "claude-3-haiku",
     "32": "bard",
-    "33": "qwen",
     "34": "t-pro",
     "35": "t-lite"
 }
@@ -92,7 +91,7 @@ class AIModule(loader.Module):
     """
 🧠 Модуль Zetta - AI Models
 >> Часть экосистемы Zetta - AI models <<
-🌒 Version: 13.0 | fastZetta Beta 2 | New settings
+🌒 Version: 14.0 | fastZetta Beta 2 | New models
 Основанно на базе инструментов API - @OnlySq
 
 📍Описание:
